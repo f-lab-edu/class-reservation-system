@@ -8,7 +8,7 @@ import reservation.project.domain.customer.entity.User
 class CustomUserDetails(private val user:User): UserDetails {
 
     override fun getAuthorities(): Collection<GrantedAuthority> {
-        return listOf(SimpleGrantedAuthority(user.role))
+        return listOf(SimpleGrantedAuthority(user.role.toString()))
     }
 
     override fun getPassword(): String = user.password

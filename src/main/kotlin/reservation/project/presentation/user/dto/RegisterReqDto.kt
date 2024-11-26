@@ -1,4 +1,4 @@
-package reservation.project.presentation.dto.reqeust
+package reservation.project.presentation.user.dto
 
 data class RegisterReqDto(
     val username: String,

@@ -4,7 +4,7 @@ import jakarta.persistence.*
 
 @Entity
 @Table(name = "users")
-data class User(
+class User(
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long = 0,
 
@@ -14,8 +14,9 @@ data class User(
     @Column(nullable = false)
     val password: String,
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    val role: String
+    val role: Role = Role.USER
 
 
 )

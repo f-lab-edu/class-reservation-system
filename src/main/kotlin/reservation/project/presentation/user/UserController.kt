@@ -1,16 +1,21 @@
 package reservation.project.presentation.user
 
 import org.springframework.http.ResponseEntity
+import org.springframework.security.authentication.AuthenticationManager
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
-import reservation.project.presentation.dto.reqeust.LoginReqDto
-import reservation.project.presentation.dto.reqeust.RegisterReqDto
+import reservation.project.application.security.util.JwtUtils
+import reservation.project.domain.customer.service.AuthService
+import reservation.project.presentation.user.dto.LoginReqDto
+import reservation.project.presentation.user.dto.RegisterReqDto
 
 @RestController
 @RequestMapping("/auth")
 class UserController(
+    private val authService: AuthService
 ) {
 
     @PostMapping("/register")
@@ -25,8 +30,8 @@ class UserController(
     @PostMapping("/login")
     fun login(@RequestBody loginReqDto: LoginReqDto): ResponseEntity<*> {
         try {
-
-            return ResponseEntity.ok("로그인 성공")
+            val jwtToken = authService.login(loginReqDto)
+            return ResponseEntity.ok(jwtToken)
         } catch (e: IllegalArgumentException) {
             return ResponseEntity.badRequest().body(e.message)
         }
