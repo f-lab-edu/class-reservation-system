@@ -12,7 +12,7 @@ class AuthServiceImpl(
 ): AuthService {
     override fun findByUsername(username: String): User {
         return userRepository.findByUsername(username)
-            .orElseThrow { UsernameNotFoundException("사용자를 찾을 수 없습니다: $username") }
+            .orElse(null)
     }
 
     override fun save(user: User): User {

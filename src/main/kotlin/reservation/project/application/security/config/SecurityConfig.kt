@@ -15,14 +15,18 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.provisioning.InMemoryUserDetailsManager
 import org.springframework.security.web.SecurityFilterChain
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher
+import reservation.project.application.security.filter.JwtAuthenticationFilter
 import reservation.project.application.security.service.CustomUserDetailService
 import reservation.project.application.security.util.JwtUtils
+import reservation.project.domain.customer.service.AuthService
 
 @Configuration
 @EnableWebSecurity
 class SecurityConfig(
-    private val customUserDetailsService: CustomUserDetailService
+    private val customUserDetailsService: CustomUserDetailService,
+    private val jwtAuthenticationFilter: JwtAuthenticationFilter
 ) {
 
     @Bean
@@ -38,17 +42,18 @@ class SecurityConfig(
 
     @Bean
     fun filterChain(http:HttpSecurity): SecurityFilterChain{
-        http.csrf().disable()
+        http
+            .csrf { it.disable() }
+            .authorizeHttpRequests { auth ->
+                auth
+                    .requestMatchers("/auth/**").permitAll()
+                    .requestMatchers("/admin/**").hasRole("ADMIN")
+                    .anyRequest().authenticated()
+            }
             .sessionManagement { session ->
                 session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             }
-            .authorizeHttpRequests { requests ->
-                requests
-                    .requestMatchers(AntPathRequestMatcher("/auth/**")).permitAll()
-                    .anyRequest().authenticated()
-            }
-            .httpBasic().disable()
-            .formLogin().disable()
+            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter::class.java)
         return http.build()
     }
 
