@@ -9,7 +9,7 @@ import java.util.Date
 
 @Component
 class JwtUtils {
-    private val secretKey = "mykey"
+    private val secretKey = "cSYEzypg3DVZJaxnrud7jt4TYBkVycRGSnuemLCTPaZME5QwNRrbm8DnXC539GZYhkaH6FKffrFqx2yNSh5Z7k8jgE36pLvaSmy8XBNufE2KDAws37H9V4Tt"
     private val expirationTime: Long = 3600000
 
     fun generateToken(username: String): String {

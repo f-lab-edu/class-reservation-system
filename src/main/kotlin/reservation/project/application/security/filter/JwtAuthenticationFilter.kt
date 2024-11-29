@@ -3,6 +3,7 @@ package reservation.project.application.security.filter
 import jakarta.servlet.FilterChain
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
+import org.springframework.context.annotation.Lazy
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.core.userdetails.UserDetailsService
@@ -15,7 +16,7 @@ import reservation.project.application.security.util.JwtUtils
 @Component
 class JwtAuthenticationFilter(
     private val jwtUtils: JwtUtils,
-    private val customUserDetailService: CustomUserDetailService
+    private val customUserDetailService: UserDetailsService
 ) : OncePerRequestFilter(){
     override fun doFilterInternal(
         request: HttpServletRequest,

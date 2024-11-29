@@ -3,17 +3,17 @@ package reservation.project.application.security.service
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
-import reservation.project.domain.customer.entity.User
+import reservation.project.domain.user.entity.Customer
 
-class CustomUserDetails(private val user:User): UserDetails {
+class CustomUserDetails(private val customer:Customer): UserDetails {
 
     override fun getAuthorities(): Collection<GrantedAuthority> {
-        return listOf(SimpleGrantedAuthority(user.role.toString()))
+        return listOf(SimpleGrantedAuthority(customer.role.toString()))
     }
 
-    override fun getPassword(): String = user.password
+    override fun getPassword(): String = customer.password
 
-    override fun getUsername(): String = user.username
+    override fun getUsername(): String = customer.username
 
     override fun isAccountNonExpired(): Boolean = true
 

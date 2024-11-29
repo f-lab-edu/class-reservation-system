@@ -27,6 +27,7 @@ repositories {
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
 	implementation("org.springframework.boot:spring-boot-starter-web")
+	implementation ("org.jetbrains.kotlin:kotlin-reflect")
 	//security
 	implementation("org.springframework.boot:spring-boot-starter-security")
 	//jwt
@@ -39,6 +40,7 @@ dependencies {
 	annotationProcessor("org.projectlombok:lombok")
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+	testImplementation("org.mockito.kotlin:mockito-kotlin:5.0.0")
 	implementation(kotlin("stdlib-jdk8"))
 }
 
