@@ -1,4 +1,7 @@
 spring:
+  security:
+    jwt:
+      secret-key: "d"
   application:
     name: reservation
   datasource:
