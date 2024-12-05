@@ -8,6 +8,7 @@ import reservation.project.domain.academy.service.CategoryService
 import reservation.project.domain.academy.service.SecretManagementService
 import reservation.project.presentation.academy.dto.AcademyReqDto
 import reservation.project.presentation.academy.dto.AcademyResDto
+import reservation.project.presentation.academy.dto.AcademySearchingResData
 import reservation.project.presentation.advice.exception.NoInfoException
 import reservation.project.presentation.response.ResponseDto
 
@@ -35,6 +36,13 @@ class AcademyUseCaseImpl(
         }
 
         return AcademyResDto(secretManage.secretKey)
+    }
+
+    override fun searchingAcademy(academyId: Int): AcademySearchingResData {
+        val data = academyService.findByAcademyId(academyId).orElseThrow {
+            NoInfoException(ResponseDto(500, "Academy data is not found", null))
+        }
+        return AcademySearchingResData.of(data)
     }
 
     private fun generateSecretCode(): String {
