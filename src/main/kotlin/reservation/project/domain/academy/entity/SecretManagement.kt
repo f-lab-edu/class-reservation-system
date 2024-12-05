@@ -1,7 +1,6 @@
-package reservation.project.domain.admin.entity
+package reservation.project.domain.academy.entity
 
 import jakarta.persistence.*
-import reservation.project.domain.academy.entity.Academy
 
 @Entity
 @Table(name = "secret_management")
