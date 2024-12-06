@@ -12,7 +12,11 @@ class SecretManagementServiceImpl(
 
 ) : SecretManagementService {
     override fun findByKeyId(keyId: Int): Optional<SecretManagement> {
-        return secretManagementRepository.findBySecretKey(keyId)
+        return secretManagementRepository.findByKeyId(keyId)
+    }
+
+    override fun findBySecretKey(secretKey: String): Optional<SecretManagement> {
+        return secretManagementRepository.findBySecretKey(secretKey)
     }
 
     override fun save(secretKey: SecretManagement): Optional<SecretManagement> {

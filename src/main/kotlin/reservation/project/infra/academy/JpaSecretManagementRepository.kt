@@ -8,5 +8,6 @@ import java.util.Optional
 @Repository
 interface JpaSecretManagementRepository : JpaRepository<SecretManagement, Long> {
     fun findByKeyId(keyId: Int): Optional<SecretManagement>
+    fun findBySecretKey(secretKey: String): Optional<SecretManagement>
     fun save(secretKey: SecretManagement): Optional<SecretManagement>
 }

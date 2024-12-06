@@ -10,8 +10,13 @@ import java.util.*
 class SecretManagementRepositoryImpl(
     private val secretManagementRepo: JpaSecretManagementRepository
 ) : SecretManagementRepository {
-    override fun findBySecretKey(secretKey: Int): Optional<SecretManagement> {
-        return secretManagementRepo.findByKeyId(secretKey)
+
+    override fun findByKeyId(keyId: Int): Optional<SecretManagement> {
+        return secretManagementRepo.findByKeyId(keyId)
+    }
+
+    override fun findBySecretKey(secretKey: String): Optional<SecretManagement> {
+        return secretManagementRepo.findBySecretKey(secretKey)
     }
 
     override fun save(secret: SecretManagement): Optional<SecretManagement> {
