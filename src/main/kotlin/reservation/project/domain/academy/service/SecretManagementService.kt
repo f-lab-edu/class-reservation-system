@@ -5,5 +5,6 @@ import java.util.*
 
 interface SecretManagementService {
     fun findByKeyId(keyId: Int): Optional<SecretManagement>
+    fun findBySecretKey(secretKey: String): Optional<SecretManagement>
     fun save(secretKey: SecretManagement): Optional<SecretManagement>
 }

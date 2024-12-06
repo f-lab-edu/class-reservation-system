@@ -14,6 +14,7 @@ import org.springframework.security.web.SecurityFilterChain
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 import reservation.project.application.security.filter.JwtAuthenticationFilter
 import reservation.project.application.security.service.CustomUserDetailService
+import reservation.project.domain.user.entity.Role
 
 @Configuration
 @EnableWebSecurity
@@ -39,7 +40,8 @@ class SecurityConfig(
             .authorizeHttpRequests { auth ->
                 auth
                     .requestMatchers("/auth/**").permitAll()
-                    .requestMatchers("/admin/**").hasRole("ADMIN")
+                    .requestMatchers("/admin/**").permitAll()
+                    .requestMatchers("/academy/register").hasRole(Role.ADMIN.toString())
                     .anyRequest().authenticated()
             }
             .sessionManagement { session ->

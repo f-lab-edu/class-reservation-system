@@ -1,13 +1,10 @@
 package reservation.project.domain.user.service
 
 import reservation.project.domain.user.entity.Customer
-import reservation.project.presentation.response.ResponseDto
-import reservation.project.presentation.user.dto.LoginReqDto
-import reservation.project.presentation.user.dto.RegisterReqDto
+import java.util.*
 
 interface UserService {
 
-    fun findByUsername(username: String): ResponseDto
-    fun save(registerReqDto: RegisterReqDto):ResponseDto
-    fun login(loginReqDto: LoginReqDto): ResponseDto
+    fun findByUsername(username: String): Optional<Customer>
+    fun save(customer: Customer): Optional<Customer>
 }
