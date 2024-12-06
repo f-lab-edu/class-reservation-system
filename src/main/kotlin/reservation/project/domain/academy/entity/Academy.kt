@@ -1,7 +1,7 @@
 package reservation.project.domain.academy.entity
 
 import jakarta.persistence.*
-import java.time.LocalDate
+import java.time.LocalDateTime
 
 @Entity
 @Table(name = "academy")
@@ -16,10 +16,10 @@ data class Academy(
 
     @ManyToOne
     @JoinColumn(name = "category_id", nullable = false)
-    val category: Category,
+    var category: Category?=null,
 
     @Column(name = "open_time")
-    val openTime: LocalDate? = null,
+    val openTime: LocalDateTime? = null,
 
     @Column(name = "location")
     val location: String? = null,
@@ -28,7 +28,7 @@ data class Academy(
     val socialNetworkAddress: String? = null,
 
     @Column(name = "rating")
-    val rating: Int? = null,
+    val rating: Double? = null,
 
     @Column(name = "contact_info")
     val contactInfo: String? = null
