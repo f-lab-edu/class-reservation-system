@@ -7,11 +7,11 @@ import jakarta.persistence.*
 data class SecretManagement(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "key_id")
+    @Column(name = "id")
     val keyId: Int = 0,
 
     @ManyToOne
-    @JoinColumn(name = "academy_id", nullable = false)
+    @JoinColumn(name = "id", nullable = false)
     val academy: Academy,
 
     @Column(name = "secretkey", nullable = false)

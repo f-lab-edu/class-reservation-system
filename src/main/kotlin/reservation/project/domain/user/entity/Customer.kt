@@ -1,6 +1,7 @@
 package reservation.project.domain.user.entity
 
 import jakarta.persistence.*
+import java.math.BigDecimal
 
 @Entity
 @Table(name = "customer")
@@ -10,7 +11,7 @@ data class Customer(
     val id: Long=0,
 
     @Column(name = "charging_balance", nullable = false)
-    val chargingBalance: Double = 0.0,
+    val chargingBalance: BigDecimal,
 
     @Column(name = "user_name", nullable = false)
     val username: String,
@@ -21,6 +22,4 @@ data class Customer(
     @Enumerated(EnumType.STRING)
     @Column(name="role",nullable = false)
     val role: Role = Role.USER
-){
-    constructor() : this(0, 0.0, "", "", Role.USER)
-}
+)

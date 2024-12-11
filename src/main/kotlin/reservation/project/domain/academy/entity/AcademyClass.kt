@@ -9,7 +9,7 @@ import java.time.LocalDate
 data class AcademyClass(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "class_id")
+    @Column(name = "id")
     val classId: Int = 0,
 
     @ManyToOne
@@ -41,10 +41,10 @@ data class AcademyClass(
     val classInstructor: String,
 
     @ManyToOne
-    @JoinColumn(name = "customer_id", nullable = false)
+    @JoinColumn(name = "id", nullable = false)
     val customer: Customer,
 
-    @Column(name = "admin_id", nullable = false)
+    @Column(name = "id", nullable = false)
     val adminId: Int,
 
     @Column(name = "status")

@@ -13,8 +13,8 @@ import reservation.project.application.security.util.JwtUtils
 import reservation.project.domain.user.entity.Customer
 import reservation.project.domain.user.entity.Role
 import reservation.project.domain.user.repository.UserRepository
-import reservation.project.presentation.advice.exception.UserExistException
-import reservation.project.presentation.response.ResponseDto
+import reservation.project.domain.user.service.UserServiceImpl
+import reservation.project.presentation.response.ResponseDataDto
 import reservation.project.presentation.user.dto.RegisterReqDto
 import java.util.*
 
@@ -34,7 +34,7 @@ class UserServiceImplTest {
     @Test
     fun `test findByUsername wit existing user`() {
         val username = "testUser"
-        val expectedRes = ResponseDto(200, "Success", true)
+        val expectedRes = ResponseDataDto(200, "Success", true)
 
         whenever(userRepository.findByUsername(username)).thenReturn(Optional.of(Customer()))
 
@@ -46,7 +46,7 @@ class UserServiceImplTest {
     @Test
     fun `test findByUsername with non-existing user`() {
         val username = "nonExistentUser"
-        val expectedResponse = ResponseDto(200, "Success", false)
+        val expectedResponse = ResponseDataDto(200, "Success", false)
 
         whenever(userRepository.findByUsername(username)).thenReturn(Optional.empty())
 

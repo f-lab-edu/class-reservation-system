@@ -8,7 +8,7 @@ import java.time.LocalDateTime
 data class Academy(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "academy_id")
+    @Column(name = "id")
     val academyId: Int = 0,
 
     @Column(name = "academy_name", nullable = false)
