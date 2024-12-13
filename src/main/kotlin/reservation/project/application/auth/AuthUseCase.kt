@@ -28,7 +28,7 @@ class AuthUseCase(
         TODO("Not yet implemented")
     }
 
-     fun adminLogin(adminLoginReqDto: AdminLoginReqDto):ResponseDto {
+     fun adminLogin(adminLoginReqDto: AdminLoginReqDto):ResponseDto<String> {
         if (adminService.findByAdminName(adminLoginReqDto.username).isPresent) {
         throw ErrorException(ResponseDto(409, "Data already Exists"));
          }
@@ -42,7 +42,7 @@ class AuthUseCase(
     }
 
 
-     fun userRegister(registerReqDto: RegisterReqDto): ResponseDto {
+     fun userRegister(registerReqDto: RegisterReqDto): ResponseDto<String> {
         if (userService.findByUsername(registerReqDto.username).isPresent) {
             throw ErrorException(ResponseDto(409, "Data already Exists"));
         }

@@ -1,6 +1,6 @@
 package reservation.project.presentation.response
 
-data class ResponseDto(
+data class ResponseDto<T>(
     val code: Int,
-    val message: String
+    val message: T
 )

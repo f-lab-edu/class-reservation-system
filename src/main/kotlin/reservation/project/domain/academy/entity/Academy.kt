@@ -21,6 +21,9 @@ data class Academy(
     @Column(name = "open_time")
     val openTime: LocalDateTime? = null,
 
+    @Column(name = "close_time")
+    val closeTime: LocalDateTime? = null,
+
     @Column(name = "location")
     val location: String? = null,
 
