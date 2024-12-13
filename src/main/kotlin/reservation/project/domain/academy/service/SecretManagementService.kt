@@ -2,19 +2,19 @@ package reservation.project.domain.academy.service
 
 import org.springframework.stereotype.Service
 import reservation.project.domain.academy.entity.SecretManagement
-import reservation.project.domain.academy.repository.SecretManagementRepository
+import reservation.project.infra.academy.JpaSecretManagementRepository
 import java.util.*
 
 @Service
 class SecretManagementService(
-    private val secretManagementRepository: SecretManagementRepository
+    private val jpaSecretManagementRepository : JpaSecretManagementRepository,
 
-)  {
+    )  {
      fun findByKeyId(keyId: Int): Optional<SecretManagement> {
-        return secretManagementRepository.findBySecretKey(keyId)
+        return jpaSecretManagementRepository.findById(keyId)
     }
 
      fun save(secretKey: SecretManagement): Optional<SecretManagement> {
-       return secretManagementRepository.save(secretKey)
+       return jpaSecretManagementRepository.save(secretKey)
     }
 }

@@ -2,14 +2,14 @@ package reservation.project.domain.academy.service
 
 import org.springframework.stereotype.Service
 import reservation.project.domain.academy.entity.Category
-import reservation.project.domain.academy.repository.CategoryRepository
+import reservation.project.infra.academy.JpaCategoryRepository
 import java.util.*
 
 @Service
 class CategoryService(
-    private val categoryRepository: CategoryRepository
+    private val jpaCategoryRepository : JpaCategoryRepository,
 ) {
      fun findByCategoryId(categoryId: Int): Optional<Category> {
-        return categoryRepository.findByCategoryId(categoryId)
+        return jpaCategoryRepository.findByCategoryId(categoryId)
     }
 }

@@ -2,18 +2,18 @@ package reservation.project.domain.admin.service
 
 import org.springframework.stereotype.Service
 import reservation.project.domain.admin.entity.Admin
-import reservation.project.domain.admin.repository.AdminRepository
+import reservation.project.infra.admin.JpaAdminRepository
 import java.util.*
 
 @Service
 class AdminService(
-    private val adminRepository: AdminRepository
+    private val jpaAdminRepository: JpaAdminRepository,
 )  {
      fun findByAdminName(adminName: String): Optional<Admin> {
-        return adminRepository.findByAdminName(adminName)
+        return jpaAdminRepository.findByAdminName(adminName)
     }
 
      fun save(admin: Admin): Optional<Admin> {
-        return adminRepository.save(admin)
+        return jpaAdminRepository.save(admin)
     }
 }
