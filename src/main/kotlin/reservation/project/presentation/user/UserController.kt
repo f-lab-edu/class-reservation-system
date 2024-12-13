@@ -1,5 +1,6 @@
 package reservation.project.presentation.user
 
+import jakarta.validation.Valid
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
@@ -18,11 +19,11 @@ class UserController(
 ) {
 
     @PostMapping("/register")
-    fun register(@RequestBody registerReqDto: RegisterReqDto): ResponseEntity<ResponseDto> {
+    fun register(@Valid @RequestBody registerReqDto: RegisterReqDto): ResponseEntity<ResponseDto<String>> {
         return ResponseEntity.ok(authUseCase.userRegister(registerReqDto))
     }
     @PostMapping("/login")
-    fun login(@RequestBody loginReqDto: LoginReqDto): ResponseEntity<ResponseDataDto<String>> {
+    fun login(@Valid @RequestBody loginReqDto: LoginReqDto): ResponseEntity<ResponseDataDto<String>> {
         return ResponseEntity.ok(authUseCase.userLogin(loginReqDto))
     }
 }
