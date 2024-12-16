@@ -38,7 +38,7 @@ class AcademyUseCase(
         return AcademyResDto(secretManage.secretKey)
     }
 
-     fun searchingAcademy(academyId: Int): AcademySearchingResData {
+     fun searchingAcademy(academyId: Long): AcademySearchingResData {
         val data = academyService.findByAcademyId(academyId).orElseThrow {
             ErrorException(ResponseDto(Response.SC_INTERNAL_SERVER_ERROR, "Academy data is not found"))
         }

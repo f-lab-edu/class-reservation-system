@@ -10,8 +10,8 @@ import java.time.LocalDate
 data class Token(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "token_id")
-    val tokenId: Int = 0,
+    @Column(name = "id")
+    val id: Long = 0,
 
     @Column(name = "access_token", nullable = false)
     val accessToken: String,
@@ -20,11 +20,11 @@ data class Token(
     val expiredAt: Int,
 
     @ManyToOne
-    @JoinColumn(name = "customer_id", nullable = false)
+    @JoinColumn(name = "id", nullable = false)
     val customer: Customer,
 
     @ManyToOne
-    @JoinColumn(name = "class_id", nullable = false)
+    @JoinColumn(name = "id", nullable = false)
     val academyClass: AcademyClass,
 
     @Column(name = "status", nullable = false)

@@ -7,7 +7,7 @@ import java.math.BigDecimal
 @Table(name = "customer")
 data class Customer(
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "customer_id")
+    @Column(name = "id")
     val id: Long=0,
 
     @Column(name = "charging_balance", nullable = false)
@@ -15,6 +15,9 @@ data class Customer(
 
     @Column(name = "user_name", nullable = false)
     val username: String,
+
+    @Column(name = "rrn", nullable = false)
+    val rrn: String,
 
     @Column(name="password", nullable = false)
     val password: String,

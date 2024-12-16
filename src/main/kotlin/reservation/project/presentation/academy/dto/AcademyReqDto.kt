@@ -22,7 +22,7 @@ data class AcademyReqDto(
 
     val socialNetworkAddress: String,
 
-    val categoryId: Int
+    val categoryId: Long
 ){
     fun toEntity(): Academy {
         return Academy(

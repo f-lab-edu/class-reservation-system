@@ -10,7 +10,7 @@ data class AcademySearchingResData(
     val openTime: LocalDateTime?,
     val closeTime: LocalDateTime?,
     val socialNetworkAddress: String?,
-    val categoryId: Int?,
+    val categoryId: Long?,
     val categoryName: String?
 ){
     companion object{

@@ -9,15 +9,15 @@ import java.time.LocalDate
 data class Reservation(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "reservation_id")
-    val reservationId: Int = 0,
+    @Column(name = "id")
+    val id: Long = 0,
 
     @ManyToOne
-    @JoinColumn(name = "class_id", nullable = false)
+    @JoinColumn(name = "id", nullable = false)
     val academyClass: AcademyClass,
 
     @Column(name = "user_id", nullable = false)
-    val userId: Int,
+    val userId: Long,
 
     @Column(name = "created_at", nullable = false)
     val createdAt: LocalDate,
