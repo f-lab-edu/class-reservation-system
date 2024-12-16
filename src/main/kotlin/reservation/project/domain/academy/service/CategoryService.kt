@@ -9,7 +9,7 @@ import java.util.*
 class CategoryService(
     private val jpaCategoryRepository : JpaCategoryRepository,
 ) {
-     fun findByCategoryId(categoryId: Int): Optional<Category> {
+     fun findByCategoryId(categoryId: Long): Optional<Category> {
         return jpaCategoryRepository.findByCategoryId(categoryId)
     }
 }

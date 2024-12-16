@@ -10,7 +10,7 @@ data class AcademyClass(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    val classId: Int = 0,
+    val classId: Long = 0,
 
     @ManyToOne
     @JoinColumn(name = "academy_id", nullable = false)

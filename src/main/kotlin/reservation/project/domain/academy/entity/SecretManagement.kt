@@ -8,7 +8,7 @@ data class SecretManagement(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    val id: Int = 0,
+    val id: Long = 0,
 
     @ManyToOne
     @JoinColumn(name = "id", nullable = false)

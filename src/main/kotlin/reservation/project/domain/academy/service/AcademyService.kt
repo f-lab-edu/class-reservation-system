@@ -9,7 +9,7 @@ import java.util.*
 class AcademyService(
     private val jpaAcademyRepository : JpaAcademyRepository,
 )  {
-     fun findByAcademyId(academyId: Int): Optional<Academy> {
+     fun findByAcademyId(academyId: Long): Optional<Academy> {
         return jpaAcademyRepository.findByAcademyId(academyId)
     }
 

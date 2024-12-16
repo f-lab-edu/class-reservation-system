@@ -11,7 +11,7 @@ data class Payment(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    val paymentId: Int = 0,
+    val paymentId: Long = 0,
 
     @ManyToOne
     @JoinColumn(name = "id", nullable = false)

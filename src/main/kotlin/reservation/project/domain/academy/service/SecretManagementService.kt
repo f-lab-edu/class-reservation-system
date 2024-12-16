@@ -10,7 +10,7 @@ class SecretManagementService(
     private val jpaSecretManagementRepository : JpaSecretManagementRepository,
 
     )  {
-     fun findByKeyId(keyId: Int): Optional<SecretManagement> {
+     fun findByKeyId(keyId: Long): Optional<SecretManagement> {
         return jpaSecretManagementRepository.findById(keyId)
     }
 

@@ -24,7 +24,7 @@ class AcademyController(
     }
 
     @PostMapping("/searching")
-    fun searchingAcademy(@PathVariable academyId: Int): ResponseEntity<ResponseDataDto<AcademySearchingResData>> {
+    fun searchingAcademy(@PathVariable academyId: Long): ResponseEntity<ResponseDataDto<AcademySearchingResData>> {
         return ResponseEntity.ok(ResponseDataDto(200, "Success", academyUseCase.searchingAcademy(academyId)))
     }
 }

@@ -9,7 +9,7 @@ data class Academy(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    val academyId: Int = 0,
+    val academyId: Long = 0,
 
     @Column(name = "academy_name", nullable = false)
     val academyName: String,
