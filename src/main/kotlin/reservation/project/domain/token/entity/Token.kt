@@ -3,7 +3,7 @@ package reservation.project.domain.token.entity
 import jakarta.persistence.*
 import reservation.project.domain.academy.entity.AcademyClass
 import reservation.project.domain.user.entity.Customer
-import java.time.LocalDate
+import java.time.LocalDateTime
 
 @Entity
 @Table(name = "token")
@@ -17,7 +17,7 @@ data class Token(
     val accessToken: String,
 
     @Column(name = "expired_at", nullable = false)
-    val expiredAt: Int,
+    val expiredAt: LocalDateTime,
 
     @ManyToOne
     @JoinColumn(name = "id", nullable = false)
@@ -31,5 +31,5 @@ data class Token(
     val status: String,
 
     @Column(name = "created_at", nullable = false)
-    val createdAt: LocalDate
+    val createdAt: LocalDateTime
 )

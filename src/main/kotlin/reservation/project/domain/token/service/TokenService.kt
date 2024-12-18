@@ -3,7 +3,6 @@ package reservation.project.domain.token.service
 import org.springframework.stereotype.Service
 import reservation.project.domain.token.entity.Token
 import reservation.project.infra.token.JpaTokenRepository
-import reservation.project.presentation.token.dto.TokenQueueDto
 import java.util.Optional
 
 @Service
@@ -11,8 +10,16 @@ class TokenService(
     private val jpaTokenRepository: JpaTokenRepository
 ) {
 
-    fun findByAcademyClassIdAndCustomerId(tokenQueueDto: TokenQueueDto): Optional<Token> {
-        return jpaTokenRepository.findByAcademyClassIdAndCustomerId(tokenQueueDto.classId, tokenQueueDto.userId)
+    fun findByAcademyClassIdAndCustomerId(academyClassId: Long, customerId: Long): Optional<Token> {
+        return jpaTokenRepository.findByAcademyClassIdAndCustomerId(academyClassId, customerId)
+    }
+
+    fun findByAcademyClassId(academyClassId: Long): Optional<Token> {
+        return jpaTokenRepository.findByAcademyClassId(academyClassId)
+    }
+
+    fun findByCustomerId(customerId: Long): Optional<Token> {
+        return jpaTokenRepository.findByCustomerId(customerId)
     }
 
     fun addQueue(token: Token): Optional<Token> {
