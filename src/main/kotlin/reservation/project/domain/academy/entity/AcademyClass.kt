@@ -1,7 +1,6 @@
 package reservation.project.domain.academy.entity
 
 import jakarta.persistence.*
-import reservation.project.domain.user.entity.Customer
 import java.math.BigDecimal
 import java.time.LocalDateTime
 import java.time.LocalTime
@@ -16,7 +15,7 @@ data class AcademyClass(
 
     @ManyToOne
     @JoinColumn(name = "academy_id", nullable = false)
-    val academy: Academy,
+    var academy: Academy?,
 
     @Column(name = "class_name", nullable = false)
     val className: String,
@@ -42,13 +41,12 @@ data class AcademyClass(
     @Column(name = "class_instructor", nullable = false)
     val classInstructor: String,
 
-    @ManyToOne
-    @JoinColumn(name = "id", nullable = false)
-    val customer: Customer,
+    @Column(name = "id", nullable = false)
+    val customerId: Long,
 
     @Column(name = "id", nullable = false)
     val adminId: Long,
 
     @Column(name = "status")
-    val status: String? = null
+    var status: String? = null
 )
