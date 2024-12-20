@@ -9,5 +9,7 @@ import java.util.Optional
 interface JpaTokenRepository: JpaRepository<Token, Long> {
 
     fun findByAcademyClassIdAndCustomerId(academyClassId: Long, customerId: Long): Optional<Token>
+    fun findByAcademyClassId(academyClassId: Long): Optional<Token>
+    fun findByCustomerId(customerId: Long): Optional<Token>
     fun save(token: Token): Optional<Token>
 }

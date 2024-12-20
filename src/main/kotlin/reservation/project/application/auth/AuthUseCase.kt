@@ -47,7 +47,7 @@ class AuthUseCase(
             throw ErrorException(ResponseDto(409, "Data already Exists"));
         }
 
-        val customer = Customer(0, BigDecimal.ZERO,username=registerReqDto.username,
+        val customer = Customer(0, BigDecimal.ZERO,username=registerReqDto.username, "rrn",
             password = passwordEncoder.encode(registerReqDto.password), role = Role.USER)
         userService.save(customer).orElseThrow {
             throw ErrorException(ResponseDto(500, "User Save Error"))
