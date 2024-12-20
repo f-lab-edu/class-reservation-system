@@ -157,7 +157,7 @@ class TokenServiceTest {
         return AcademyClass(
             1L, getAcademy(2L), "className", 10,
             day, day.plusDays(5), time.plusHours(1), time.plusHours(6), BigDecimal(100000),
-            "강사", getCustomer(), 1L, "end")
+            "강사", getCustomer().id, 1L, "end")
 
     }
 

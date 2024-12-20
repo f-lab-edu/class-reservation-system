@@ -79,8 +79,8 @@ class AcademyClassServiceTest{
         val result = academyClassService.findByAcademyClassId(academy.academyId)
 
         //then
-        assertEquals(2, result.size)
-        assertEquals("name2", result[1].className)
+        assertTrue(result.isPresent)
+        assertEquals(academyClasses, result)
         verify(jpaAcademyClassRepository, times(1)).findByAcademyClassId(academy.academyId)
     }
 
