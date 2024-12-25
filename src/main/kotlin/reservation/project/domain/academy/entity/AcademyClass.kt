@@ -1,6 +1,7 @@
 package reservation.project.domain.academy.entity
 
 import jakarta.persistence.*
+import reservation.project.domain.academy.status.ClassStatus
 import java.math.BigDecimal
 import java.time.LocalDateTime
 import java.time.LocalTime
@@ -20,8 +21,8 @@ data class AcademyClass(
     @Column(name = "class_name", nullable = false)
     val className: String,
 
-    @Column(name = "class_enroll_number", nullable = false)
-    val classEnrollNumber: Int,
+    @Column(name = "capacity", nullable = false)
+    val capacity: Int,
 
     @Column(name = "class_regist_start_date", nullable = false)
     val classRegistStartDate: LocalDateTime,
@@ -39,14 +40,11 @@ data class AcademyClass(
     val classTuition: BigDecimal,
 
     @Column(name = "class_instructor", nullable = false)
-    val classInstructor: String,
-
-    @Column(name = "id", nullable = false)
-    val customerId: Long,
+    var classInstructor: String,
 
     @Column(name = "id", nullable = false)
     val adminId: Long,
 
     @Column(name = "status")
-    var status: String? = null
+    var status: ClassStatus? = null
 )

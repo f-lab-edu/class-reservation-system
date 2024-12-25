@@ -13,6 +13,10 @@ class AdminService(
         return jpaAdminRepository.findByAdminName(adminName)
     }
 
+    fun findByAdminId(adminId: Long): Optional<Admin> {
+        return jpaAdminRepository.findByAdminId(adminId)
+    }
+
      fun save(admin: Admin): Optional<Admin> {
         return jpaAdminRepository.save(admin)
     }

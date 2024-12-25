@@ -12,6 +12,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension
 import reservation.project.domain.academy.entity.Academy
 import reservation.project.domain.academy.entity.AcademyClass
 import reservation.project.domain.academy.entity.Category
+import reservation.project.domain.academy.status.ClassStatus
 import reservation.project.domain.token.entity.Token
 import reservation.project.domain.token.service.TokenService
 import reservation.project.domain.user.entity.Customer
@@ -157,7 +158,7 @@ class TokenServiceTest {
         return AcademyClass(
             1L, getAcademy(2L), "className", 10,
             day, day.plusDays(5), time.plusHours(1), time.plusHours(6), BigDecimal(100000),
-            "강사", getCustomer().id, 1L, "end")
+            "강사", 1L, ClassStatus.WAITING)
 
     }
 

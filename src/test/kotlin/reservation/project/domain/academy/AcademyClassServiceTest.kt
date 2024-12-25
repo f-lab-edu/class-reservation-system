@@ -11,6 +11,7 @@ import reservation.project.domain.academy.entity.Academy
 import reservation.project.domain.academy.entity.AcademyClass
 import reservation.project.domain.academy.entity.Category
 import reservation.project.domain.academy.service.AcademyClassService
+import reservation.project.domain.academy.status.ClassStatus
 import reservation.project.infra.academy.JpaAcademyClassRepository
 import java.math.BigDecimal
 import java.time.LocalDateTime
@@ -34,8 +35,8 @@ class AcademyClassServiceTest{
         val academy = Academy(id, "tennis", category,time, time.plusHours(8),
             "location", "url_address", 0.0, "contactInfo")
         val academyClasses = listOf(
-            AcademyClass(1L, academy, "name", 10, time, time.plusDays(1), time.toLocalTime(), time.toLocalTime().plusHours(1), BigDecimal(100000), "teacherName", 1L,1L, "register"),
-            AcademyClass(2L, academy, "name2", 10, time, time.plusDays(1), time.toLocalTime(), time.toLocalTime().plusHours(1), BigDecimal(100000), "teacherName2", 2L,2L, "register")
+            AcademyClass(1L, academy, "name", 10, time, time.plusDays(1), time.toLocalTime(), time.toLocalTime().plusHours(1), BigDecimal(100000), "teacherName", 1L, ClassStatus.WAITING),
+            AcademyClass(2L, academy, "name2", 10, time, time.plusDays(1), time.toLocalTime(), time.toLocalTime().plusHours(1), BigDecimal(100000), "teacherName2", 2L, ClassStatus.WAITING)
         )
         `when`(jpaAcademyClassRepository.findByAcademyId(id)).thenReturn(academyClasses)
 
@@ -71,7 +72,7 @@ class AcademyClassServiceTest{
         val academy = Academy(2L, "tennis", category,time, time.plusHours(8),
             "location", "url_address", 0.0, "contactInfo")
         val academyClasses = Optional.of(
-            AcademyClass(1L, academy, "name", 10, time, time.plusDays(1), time.toLocalTime(), time.toLocalTime().plusHours(1), BigDecimal(100000), "teacherName", 1L,1L, "register")
+            AcademyClass(1L, academy, "name", 10, time, time.plusDays(1), time.toLocalTime(), time.toLocalTime().plusHours(1), BigDecimal(100000), "teacherName", 1L,ClassStatus.WAITING)
         )
         `when`(jpaAcademyClassRepository.findByAcademyClassId(academy.academyId)).thenReturn(academyClasses)
 
@@ -94,8 +95,8 @@ class AcademyClassServiceTest{
         val academy = Academy(2L, "tennis", category,time, time.plusHours(8),
             "location", "url_address", 0.0, "contactInfo")
         val academyClasses = listOf(
-            AcademyClass(1L, academy, "name", 10, time, time.plusDays(1), time.toLocalTime(), time.toLocalTime().plusHours(1), BigDecimal(100000), "teacherName", customerId,1L, "register"),
-            AcademyClass(2L, academy, "name2", 10, time, time.plusDays(1), time.toLocalTime(), time.toLocalTime().plusHours(1), BigDecimal(100000), "teacherName2", customerId,2L, "register")
+            AcademyClass(1L, academy, "name", 10, time, time.plusDays(1), time.toLocalTime(), time.toLocalTime().plusHours(1), BigDecimal(100000), "teacherName", 2L,ClassStatus.WAITING),
+            AcademyClass(2L, academy, "name2", 10, time, time.plusDays(1), time.toLocalTime(), time.toLocalTime().plusHours(1), BigDecimal(100000), "teacherName2", 4L,ClassStatus.WAITING)
         )
         `when`(jpaAcademyClassRepository.findByCustomerId(customerId)).thenReturn(academyClasses)
 
@@ -119,8 +120,8 @@ class AcademyClassServiceTest{
         val academy = Academy(2L, "tennis", category,time, time.plusHours(8),
             "location", "url_address", 0.0, "contactInfo")
         val academyClasses = listOf(
-            AcademyClass(1L, academy, "name", 10, time, time.plusDays(1), time.toLocalTime(), time.toLocalTime().plusHours(1), BigDecimal(100000), "teacherName", customerId,adminId, "register"),
-            AcademyClass(2L, academy, "name2", 10, time, time.plusDays(1), time.toLocalTime(), time.toLocalTime().plusHours(1), BigDecimal(100000), "teacherName2", customerId,adminId, "register")
+            AcademyClass(1L, academy, "name", 10, time, time.plusDays(1), time.toLocalTime(), time.toLocalTime().plusHours(1), BigDecimal(100000), "teacherName",adminId, ClassStatus.WAITING),
+            AcademyClass(2L, academy, "name2", 10, time, time.plusDays(1), time.toLocalTime(), time.toLocalTime().plusHours(1), BigDecimal(100000), "teacherName2",adminId, ClassStatus.WAITING)
         )
         `when`(jpaAcademyClassRepository.findByAdminId(adminId)).thenReturn(academyClasses)
 
@@ -143,7 +144,7 @@ class AcademyClassServiceTest{
         val academy = Academy(2L, "tennis", category,time, time.plusHours(8),
             "location", "url_address", 0.0, "contactInfo")
         val academyClass = Optional.of(
-            AcademyClass(1L, academy, "name", 10, time, time.plusDays(1), time.toLocalTime(), time.toLocalTime().plusHours(1), BigDecimal(100000), "teacherName", customerId,adminId, "register")
+            AcademyClass(1L, academy, "name", 10, time, time.plusDays(1), time.toLocalTime(), time.toLocalTime().plusHours(1), BigDecimal(100000), "teacherName",adminId, ClassStatus.WAITING)
         )
         `when`(jpaAcademyClassRepository.findByAcademyIdAndAdminId(academy.academyId,adminId)).thenReturn(academyClass)
 
@@ -181,7 +182,7 @@ class AcademyClassServiceTest{
         val academy = Academy(2L, "tennis", category,time, time.plusHours(8),
             "location", "url_address", 0.0, "contactInfo")
         val academyClass =
-            AcademyClass(1L, academy, "name", 10, time, time.plusDays(1), time.toLocalTime(), time.toLocalTime().plusHours(1), BigDecimal(100000), "teacherName", customerId,adminId, "register")
+            AcademyClass(1L, academy, "name", 10, time, time.plusDays(1), time.toLocalTime(), time.toLocalTime().plusHours(1), BigDecimal(100000), "teacherName",adminId, ClassStatus.WAITING)
 
         val savedClass = academyClass.copy(classId = 1L)
         `when`(jpaAcademyClassRepository.save(academyClass)).thenReturn(Optional.of(savedClass))

@@ -20,7 +20,7 @@ data class AcademyClassRegisterReqDto(
     val className: String,
 
     @field:NotBlank(message = "수강 등록 인원을 알려주세요")
-    val classEnrollNumber: Int,
+    val capacity: Int,
 
     @field:NotBlank(message = "수강신청 시작 날짜를 알려주세요")
     val classRegistStartDate: LocalDateTime,
@@ -44,14 +44,13 @@ data class AcademyClassRegisterReqDto(
             0,
             academy = null,
             className = this.className,
-            classEnrollNumber = this.classEnrollNumber,
+            capacity = this.capacity,
             classRegistStartDate = this.classRegistStartDate,
             classRegistDeadlineDate = this.classRegistDeadlineDate,
             classStartTime = this.classStartTime,
             classCloseTime = this.classCloseTime,
             classTuition = this.classTuition,
             classInstructor = this.classInstructor,
-            customerId = this.customerId,
             adminId = this.adminId,
             status = null
         )

@@ -8,5 +8,6 @@ import java.util.Optional
 @Repository
 interface JpaAdminRepository : JpaRepository<Admin, Long>{
     fun findByAdminName(adminName:String): Optional<Admin>
+    fun findByAdminId(adminId:Long): Optional<Admin>
     fun save(admin:Admin): Optional<Admin>
 }
