@@ -1,8 +1,15 @@
 package reservation.project.domain.academy.service
 
+import org.springframework.stereotype.Service
 import reservation.project.domain.academy.entity.Category
-import java.util.Optional
+import reservation.project.infra.academy.JpaCategoryRepository
+import java.util.*
 
-interface CategoryService {
-    fun findByCategoryId(categoryId: Int): Optional<Category>
+@Service
+class CategoryService(
+    private val jpaCategoryRepository : JpaCategoryRepository,
+) {
+     fun findByCategoryId(categoryId: Long): Optional<Category> {
+        return jpaCategoryRepository.findByCategoryId(categoryId)
+    }
 }

@@ -8,8 +8,9 @@ data class AcademySearchingResData(
     val contactInfo: String?,
     val location: String?,
     val openTime: LocalDateTime?,
+    val closeTime: LocalDateTime?,
     val socialNetworkAddress: String?,
-    val categoryId: Int?,
+    val categoryId: Long?,
     val categoryName: String?
 ){
     companion object{
@@ -19,6 +20,7 @@ data class AcademySearchingResData(
                     contactInfo = academy.contactInfo.orEmpty(),
                     location = academy.location.orEmpty(),
                     openTime = academy.openTime,
+                    closeTime = academy.closeTime,
                     socialNetworkAddress = academy.socialNetworkAddress,
                     categoryId = academy.category?.categoryId,
                     categoryName = academy.category?.categoryName

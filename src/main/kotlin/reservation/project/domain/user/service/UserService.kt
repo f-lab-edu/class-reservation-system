@@ -1,13 +1,20 @@
 package reservation.project.domain.user.service
 
+import org.springframework.stereotype.Service
 import reservation.project.domain.user.entity.Customer
-import reservation.project.presentation.response.ResponseDto
-import reservation.project.presentation.user.dto.LoginReqDto
-import reservation.project.presentation.user.dto.RegisterReqDto
+import reservation.project.infra.user.JpaUserRepository
+import java.util.*
 
-interface UserService {
+@Service
+class UserService(
+    private val jpaUserRepository: JpaUserRepository,
+){
+     fun findByUsername(username: String): Optional<Customer> {
+        return jpaUserRepository.findByUsername(username)
+    }
 
-    fun findByUsername(username: String): ResponseDto
-    fun save(registerReqDto: RegisterReqDto):ResponseDto
-    fun login(loginReqDto: LoginReqDto): ResponseDto
+     fun save(customer: Customer): Optional<Customer> {
+        return jpaUserRepository.save(customer)
+    }
+
 }

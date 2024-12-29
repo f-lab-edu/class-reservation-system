@@ -8,8 +8,8 @@ import java.time.LocalDateTime
 data class Academy(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "academy_id")
-    val academyId: Int = 0,
+    @Column(name = "id")
+    val academyId: Long = 0,
 
     @Column(name = "academy_name", nullable = false)
     val academyName: String,
@@ -20,6 +20,9 @@ data class Academy(
 
     @Column(name = "open_time")
     val openTime: LocalDateTime? = null,
+
+    @Column(name = "close_time")
+    val closeTime: LocalDateTime? = null,
 
     @Column(name = "location")
     val location: String? = null,

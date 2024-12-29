@@ -2,13 +2,14 @@ package reservation.project.domain.admin.entity
 
 import jakarta.persistence.*
 import reservation.project.domain.academy.entity.Academy
+import reservation.project.domain.user.entity.Role
 
 @Entity
 @Table(name = "admin")
 data class Admin(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "admin_id")
+    @Column(name = "id")
     val adminId: Int = 0,
 
     @Column(name = "admin_name")
@@ -17,7 +18,11 @@ data class Admin(
     @Column(name = "password")
     val password: String? = null,
 
+    @Enumerated(EnumType.STRING)
+    @Column(name="role",nullable = false)
+    val role: Role = Role.ADMIN,
+
     @ManyToOne
-    @JoinColumn(name = "academy_id", nullable = false)
-    val academy: Academy
+    @JoinColumn(name = "id", nullable = false)
+    val academy: Academy?
 )

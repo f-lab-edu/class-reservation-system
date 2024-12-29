@@ -8,6 +8,6 @@ import java.util.Optional
 @Repository
 interface JpaAcademyRepository : JpaRepository<Academy, Long>{
 
-    fun findByAcademyId(academyId: Int): Optional<Academy>
+    fun findByAcademyId(academyId: Long): Optional<Academy>
     fun save(academy: Academy): Optional<Academy>
 }

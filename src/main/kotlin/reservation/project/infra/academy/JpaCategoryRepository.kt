@@ -8,5 +8,5 @@ import java.util.Optional
 @Repository
 interface JpaCategoryRepository : JpaRepository<Category, Long>{
 
-    fun findByCategoryId(categoryId: Int): Optional<Category>
+    fun findByCategoryId(categoryId: Long): Optional<Category>
 }
