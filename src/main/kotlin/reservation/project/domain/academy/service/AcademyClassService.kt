@@ -17,8 +17,8 @@ class AcademyClassService(
         return jpaAcademyClassRepository.findByAcademyClassId(academyClassId)
     }
 
-    fun findByCustomerId(CustomerId: Long): List<AcademyClass> {
-        return jpaAcademyClassRepository.findByCustomerId(CustomerId)
+    fun findByCustomerId(customerId: Long): List<AcademyClass> {
+        return jpaAcademyClassRepository.findByCustomerId(customerId)
     }
 
     fun findByAdminId(adminId: Long): List<AcademyClass> {
