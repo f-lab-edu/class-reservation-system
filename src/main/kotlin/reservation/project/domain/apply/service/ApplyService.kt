@@ -1,7 +1,7 @@
-package reservation.project.domain.reservation.service
+package reservation.project.domain.apply.service
 
 import org.springframework.stereotype.Service
-import reservation.project.domain.reservation.entity.Apply
+import reservation.project.domain.apply.entity.Apply
 import reservation.project.infra.apply.JpaApplyRepository
 import java.util.*
 
@@ -11,7 +11,7 @@ class ApplyService(
 ) {
 
     fun findByApplyId(applyId: Long): Optional<Apply> {
-        return jpaApplyRepository.findByApplyId(applyId)
+        return jpaApplyRepository.findById(applyId)
     }
 
     fun findByClassId(classId: Long): List<Apply> {
@@ -22,11 +22,11 @@ class ApplyService(
         return jpaApplyRepository.findByUserId(userId)
     }
 
-    fun save(apply: Apply): Optional<Apply> {
+    fun save(apply: Apply): Apply {
         return jpaApplyRepository.save(apply)
     }
 
-    fun update(apply: Apply): Optional<Apply> {
+    fun update(apply: Apply): Apply {
         return jpaApplyRepository.save(apply)
     }
 }

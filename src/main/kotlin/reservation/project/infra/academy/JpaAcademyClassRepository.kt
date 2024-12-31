@@ -14,4 +14,5 @@ interface JpaAcademyClassRepository : JpaRepository<AcademyClass, Long>{
     fun findByAdminId(adminId: Long): List<AcademyClass>
     fun findByAcademyIdAndAdminId(academyId: Long, adminId: Long): Optional<AcademyClass>
     fun save(academyClass: AcademyClass): Optional<AcademyClass>
+    fun findByAcademyClassIds(classIds: List<Long>): List<AcademyClass>
 }

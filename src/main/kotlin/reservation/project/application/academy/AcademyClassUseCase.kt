@@ -8,7 +8,7 @@ import reservation.project.domain.academy.service.AcademyClassService
 import reservation.project.domain.academy.service.AcademyService
 import reservation.project.domain.academy.status.ClassStatus
 import reservation.project.domain.admin.service.AdminService
-import reservation.project.domain.reservation.service.ApplyService
+import reservation.project.domain.apply.service.ApplyService
 import reservation.project.domain.token.entity.Token
 import reservation.project.domain.token.service.TokenService
 import reservation.project.domain.token.status.TokenStatus
@@ -40,7 +40,7 @@ class AcademyClassUseCase(
         }
         // 인원체크
         val findApplyInfo = applyService.findByClassId(req.classId).size
-        if(!findClassInfo.isCapacityExceeded(findApplyInfo)) {
+        if(findClassInfo.isCapacityExceeded(findApplyInfo)) {
             throw ErrorException(ResponseDto(Response.SC_INTERNAL_SERVER_ERROR, "over capacity"))
         }
 

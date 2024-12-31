@@ -1,7 +1,7 @@
 package reservation.project.domain.payment.entity
 
 import jakarta.persistence.*
-import reservation.project.domain.reservation.entity.Apply
+import reservation.project.domain.apply.entity.Apply
 import java.math.BigDecimal
 import java.time.LocalDate
 

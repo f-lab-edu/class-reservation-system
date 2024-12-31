@@ -46,11 +46,12 @@ data class AcademyClass(
     @Column(name = "id", nullable = false)
     var adminId: Long,
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "status")
     var status: ClassStatus? = null
 ){
     fun isCapacityExceeded(registeredStudents: Int): Boolean{
-        return capacity>registeredStudents
+        return capacity<=registeredStudents
     }
 
     fun updateAcademyClass(req: AcademyClassUpdateReqDto) {
