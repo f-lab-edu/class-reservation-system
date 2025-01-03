@@ -29,4 +29,8 @@ data class Token(
 
     @Column(name = "created_at", nullable = false)
     val createdAt: LocalDateTime?
-)
+) {
+    fun isQueueCanceled(): Boolean {
+        return this.status == TokenStatus.CANCELLED
+    }
+}

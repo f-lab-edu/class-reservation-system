@@ -20,26 +20,27 @@ class CartUseCase(
     private val applyService: ApplyService
 ) {
 
-    fun registerCart(req: CartReqDto): String {
+    fun registerCart(req: CartReqDto) {
         // 카트 정보 유무 체크
-        cartService.findByUserIdAndClassId(req.userId, req.classId).orElseThrow {
-            ErrorException(ResponseDto(Response.SC_INTERNAL_SERVER_ERROR, "this information is already being cart for"))
+        val cartResult = cartService.findByUserIdAndClassId(req.userId, req.classId)
+        if (cartResult.isPresent) {
+            throw ErrorException(Response.SC_CONFLICT, "this information is already being cart for")
         }
 
         // 수업 정보 유무 체크
         val classInfo = academyClassService.findByAcademyClassId(req.classId).orElseThrow {
-            ErrorException(ResponseDto(Response.SC_INTERNAL_SERVER_ERROR, "Academy class information not found"))
+            ErrorException(Response.SC_NOT_FOUND, "Academy class information not found")
         }
 
         // 수업 상태 체크
         if (classInfo.status != ClassStatus.PROGRESS){
-            throw ErrorException(ResponseDto(Response.SC_BAD_REQUEST, "This class is either closed or not open yet"))
+            throw ErrorException(Response.SC_CONFLICT, "This class is either closed or not open yet")
         }
 
         // 수업 신청인원 체크
         val numberOfApplicants = applyService.findByClassId(req.classId).size
         if (classInfo.isCapacityExceeded(numberOfApplicants)){
-            throw ErrorException(ResponseDto(Response.SC_BAD_REQUEST, "Class capacity exceeded"))
+            throw ErrorException(Response.SC_CONFLICT, "Class capacity exceeded")
         }
 
         val registerCartInfo = Cart(0, req.classId, req.userId, classInfo.status!!)
@@ -47,22 +48,21 @@ class CartUseCase(
         try {
             cartService.save(registerCartInfo)
         }catch (e: DataAccessException){
-            throw ErrorException(ResponseDto(Response.SC_INTERNAL_SERVER_ERROR, "Database error: ${e.message}"))
+            throw ErrorException(Response.SC_BAD_REQUEST, "Database error: ${e.message}")
         }catch (e: Exception){
-            throw ErrorException(ResponseDto(Response.SC_INTERNAL_SERVER_ERROR, "Unexpected error: ${e.message}"))
+            throw ErrorException(Response.SC_INTERNAL_SERVER_ERROR, "Unexpected error: ${e.message}")
         }
 
-        return "Success"
     }
 
     fun getClassInfoByUserId(userId: Long): List<CartResDto>{
         var cartInfo: List<Cart> = try{
            cartService.findByUserId(userId)
         }catch (e: Exception) {
-            throw ErrorException(ResponseDto(Response.SC_INTERNAL_SERVER_ERROR, "Unexpected error: ${e.message}"))
+            throw ErrorException(Response.SC_INTERNAL_SERVER_ERROR, "Unexpected error: ${e.message}")
         }
 
-        val cartList = cartInfo.takeIf { it.isNotEmpty() } ?: throw ErrorException(ResponseDto(Response.SC_NOT_FOUND, "No cart information found for userId: $userId"))
+        val cartList = cartInfo.takeIf { it.isNotEmpty() } ?: throw ErrorException(Response.SC_NOT_FOUND, "No cart information found for userId: $userId")
 
         val classIds = cartList.map { it.classId }
 
@@ -71,7 +71,7 @@ class CartUseCase(
         val classInfo= ArrayList<CartResDto>()
         for(info in cartList) {
             val result = classInfoList.find { it.classId == info.classId }
-                ?: throw ErrorException(ResponseDto(Response.SC_INTERNAL_SERVER_ERROR, "Academy class information not found for classId: ${info.classId}"))
+                ?: throw ErrorException(Response.SC_NOT_FOUND, "Academy class information not found for classId: ${info.classId}")
 
             val resDataInfo = CartResDto(result.className, result.capacity, result.classRegistStartDate, result.classRegistDeadlineDate, result.classStartTime, result.classCloseTime, result.classTuition, result.classInstructor, result.status)
             classInfo.add(resDataInfo)
@@ -82,11 +82,11 @@ class CartUseCase(
 
     fun getClassInfoByCartId(cartId: Long): CartResDto {
        val cartInfo =  cartService.findById(cartId).orElseThrow {
-            ErrorException(ResponseDto(Response.SC_INTERNAL_SERVER_ERROR, "this information is already being cart for"))
+            ErrorException(Response.SC_NOT_FOUND, "not found cart info")
         }
 
         val result = academyClassService.findByAcademyClassId(cartInfo.classId).orElseThrow {
-            ErrorException(ResponseDto(Response.SC_INTERNAL_SERVER_ERROR, "Academy class information not found"))
+            ErrorException(Response.SC_NOT_FOUND, "Academy class information not found")
         }
 
         val resDataInfo = CartResDto(result.className, result.capacity, result.classRegistStartDate, result.classRegistDeadlineDate, result.classStartTime, result.classCloseTime, result.classTuition, result.classInstructor, result.status)
@@ -94,7 +94,13 @@ class CartUseCase(
     }
 
     fun deleteByCartId(cartId: Long) {
-        cartService.delete(cartId)
+        try{
+            cartService.delete(cartId)
+        }catch (e: DataAccessException){
+            throw ErrorException(Response.SC_BAD_REQUEST, "Database error: ${e.message}")
+        }catch (e: Exception){
+            throw ErrorException(Response.SC_INTERNAL_SERVER_ERROR, "Unexpected error: ${e.message}")
+        }
     }
 
 }

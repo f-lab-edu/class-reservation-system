@@ -21,42 +21,44 @@ class AcademyClassController(
 ) {
 
     @PostMapping("/apply")
-    fun applyClass(): ResponseEntity<ResponseDto<String>> {
-        return ResponseEntity.ok(ResponseDto(200, "Success"))
+    fun applyClass(): ResponseDto<String> {
+        return ResponseDto(200, "Success")
     }
 
     @PostMapping("/register")
-    fun registerClassInfo(req: AcademyClassRegisterReqDto): ResponseEntity<ResponseDto<String>> {
-        return ResponseEntity.ok(ResponseDto(200, academyClassUseCase.registerClassInfo(req)))
+    fun registerClassInfo(req: AcademyClassRegisterReqDto): ResponseDto<String> {
+        academyClassUseCase.registerClassInfo(req)
+        return ResponseDto(200, "Success")
     }
 
     @PostMapping("/modify")
-    fun updateClassInfo(req: AcademyClassUpdateReqDto): ResponseEntity<ResponseDto<String>>{
-        return ResponseEntity.ok(ResponseDto(200, academyClassUseCase.updateClassInfo(req)))
+    fun updateClassInfo(req: AcademyClassUpdateReqDto): ResponseDto<String>{
+        academyClassUseCase.updateClassInfo(req)
+        return ResponseDto(200, "Success")
     }
 
     @PostMapping("/info")
-    fun updateClassInfo(req: AcademyClassReqDto): ResponseEntity<ResponseDataDto<AcademyClass>>{
-        return ResponseEntity.ok(ResponseDataDto(200, "Success" ,academyClassUseCase.findByAcademyIdAndAdminId(req)))
+    fun updateClassInfo(req: AcademyClassReqDto): ResponseDataDto<AcademyClass>{
+        return ResponseDataDto(200, "Success" ,academyClassUseCase.findByAcademyIdAndAdminId(req))
     }
 
     @GetMapping("/academy/{academyId}")
-    fun getClassInfoByAcademyId(@PathVariable academyId: Long): ResponseEntity<ResponseDataDto<List<AcademyClass>>>{
-        return ResponseEntity.ok(ResponseDataDto(200, "Success", academyClassUseCase.findByAcademyId(academyId)))
+    fun getClassInfoByAcademyId(@PathVariable academyId: Long): ResponseDataDto<List<AcademyClass>>{
+        return ResponseDataDto(200, "Success", academyClassUseCase.findByAcademyId(academyId))
     }
 
     @GetMapping("/{academyClassId}")
-    fun getClassInfoByAcademyClassId(@PathVariable academyClassId: Long): ResponseEntity<ResponseDataDto<AcademyClass>>{
-        return ResponseEntity.ok(ResponseDataDto(200, "Success", academyClassUseCase.findByAcademyClassId(academyClassId)))
+    fun getClassInfoByAcademyClassId(@PathVariable academyClassId: Long): ResponseDataDto<AcademyClass>{
+        return ResponseDataDto(200, "Success", academyClassUseCase.findByAcademyClassId(academyClassId))
     }
 
     @GetMapping("/user/{userId}")
-    fun getClassInfoByUserId(@PathVariable userId: Long): ResponseEntity<ResponseDataDto<List<AcademyClass>>>{
-        return ResponseEntity.ok(ResponseDataDto(200, "Success", academyClassUseCase.findByCustomerId(userId)))
+    fun getClassInfoByUserId(@PathVariable userId: Long): ResponseDataDto<List<AcademyClass>>{
+        return ResponseDataDto(200, "Success", academyClassUseCase.findByCustomerId(userId))
     }
 
     @GetMapping("/admin/{adminId}")
-    fun getClassInfoByAdminId(@PathVariable adminId: Long): ResponseEntity<ResponseDataDto<List<AcademyClass>>>{
-        return ResponseEntity.ok(ResponseDataDto(200, "Success", academyClassUseCase.findByAdminId(adminId)))
+    fun getClassInfoByAdminId(@PathVariable adminId: Long): ResponseDataDto<List<AcademyClass>>{
+        return ResponseDataDto(200, "Success", academyClassUseCase.findByAdminId(adminId))
     }
 }

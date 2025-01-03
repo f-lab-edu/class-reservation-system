@@ -22,24 +22,25 @@ class CartController(
 ) {
 
     @PostMapping
-    fun addCart(@RequestBody @Valid req: CartReqDto): ResponseEntity<ResponseDto<String>> {
-        return ResponseEntity.ok(ResponseDto(200, cartUseCase.registerCart(req)))
+    fun addCart(@RequestBody @Valid req: CartReqDto): ResponseDto<String> {
+        cartUseCase.registerCart(req)
+        return ResponseDto(200, "Success")
     }
 
     @GetMapping("/user/{userId}")
-    fun getCartByUserId(@PathVariable("userId") userId: Long): ResponseEntity<ResponseDataDto<List<CartResDto>>> {
-        return ResponseEntity.ok(ResponseDataDto(200, "Success", cartUseCase.getClassInfoByUserId(userId)))
+    fun getCartByUserId(@PathVariable("userId") userId: Long): ResponseDataDto<List<CartResDto>> {
+        return ResponseDataDto(200, "Success", cartUseCase.getClassInfoByUserId(userId))
     }
 
     @GetMapping("/{cartId}")
-    fun getCartByCartId(@PathVariable("cartId") cartId: Long): ResponseEntity<ResponseDataDto<CartResDto>> {
-        return ResponseEntity.ok(ResponseDataDto(200, "Success", cartUseCase.getClassInfoByCartId(cartId)))
+    fun getCartByCartId(@PathVariable("cartId") cartId: Long): ResponseDataDto<CartResDto> {
+        return ResponseDataDto(200, "Success", cartUseCase.getClassInfoByCartId(cartId))
     }
 
     @DeleteMapping("/{cartId}")
-    fun deleteCartByCartId(@PathVariable("cartId") cartId: Long): ResponseEntity<ResponseDto<String>> {
+    fun deleteCartByCartId(@PathVariable("cartId") cartId: Long): ResponseDto<String> {
         cartUseCase.deleteByCartId(cartId)
-        return ResponseEntity.ok(ResponseDto(200, "Success"))
+        return ResponseDto(200, "Success")
     }
 
 }

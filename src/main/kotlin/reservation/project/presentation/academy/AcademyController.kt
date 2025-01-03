@@ -19,12 +19,12 @@ class AcademyController(
 ) {
 
     @PostMapping("/register")
-    fun registerAcademy(@RequestBody academyReqDto: AcademyReqDto): ResponseEntity<ResponseDataDto<AcademyResDto>> {
-        return ResponseEntity.ok(ResponseDataDto(200, "Success", academyUseCase.registerAcademy(academyReqDto)))
+    fun registerAcademy(@RequestBody academyReqDto: AcademyReqDto): ResponseDataDto<AcademyResDto> {
+        return ResponseDataDto(200, "Success", academyUseCase.registerAcademy(academyReqDto))
     }
 
-    @PostMapping("/searching")
-    fun searchingAcademy(@PathVariable academyId: Long): ResponseEntity<ResponseDataDto<AcademySearchingResData>> {
-        return ResponseEntity.ok(ResponseDataDto(200, "Success", academyUseCase.searchingAcademy(academyId)))
+    @PostMapping("/searching/{academyId}")
+    fun searchingAcademy(@PathVariable academyId: Long): ResponseDataDto<AcademySearchingResData> {
+        return ResponseDataDto(200, "Success", academyUseCase.searchingAcademy(academyId))
     }
 }
