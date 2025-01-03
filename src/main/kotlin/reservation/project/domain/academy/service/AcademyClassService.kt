@@ -25,6 +25,10 @@ class AcademyClassService(
         return jpaAcademyClassRepository.findByAdminId(adminId)
     }
 
+    fun findByAcademyClassIds(classIds: List<Long>): List<AcademyClass> {
+        return jpaAcademyClassRepository.findByAcademyClassIds(classIds)
+    }
+
     fun findByAcademyIdAndAdminId(academyId: Long, adminId: Long): Optional<AcademyClass> {
         return jpaAcademyClassRepository.findByAcademyIdAndAdminId(academyId, adminId)
     }

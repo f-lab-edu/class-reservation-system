@@ -23,6 +23,6 @@ data class Admin(
     val role: Role = Role.ADMIN,
 
     @ManyToOne
-    @JoinColumn(name = "id", nullable = false)
+    @JoinColumn(name = "id")
     val academy: Academy?
 )

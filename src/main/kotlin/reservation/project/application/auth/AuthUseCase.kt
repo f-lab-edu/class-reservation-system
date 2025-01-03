@@ -1,5 +1,6 @@
 package reservation.project.application.auth
 
+import org.apache.catalina.connector.Response
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Component
 import reservation.project.application.security.util.JwtUtils
@@ -24,19 +25,19 @@ class AuthUseCase(
     private val jwtUtils: JwtUtils,
     private val passwordEncoder: PasswordEncoder
 ) {
-     fun adminRegister(adminRegisterReqDto: AdminRegisterReqDto):ResponseDataDto<String> {
-        TODO("Not yet implemented")
-    }
+//     fun adminRegister(adminRegisterReqDto: AdminRegisterReqDto):ResponseDataDto<String> {
+//        TODO("Not yet implemented")
+//    }
 
-     fun adminLogin(adminLoginReqDto: AdminLoginReqDto):ResponseDto<String> {
+     fun adminRegister(adminLoginReqDto: AdminLoginReqDto):ResponseDto<String> {
         if (adminService.findByAdminName(adminLoginReqDto.username).isPresent) {
-        throw ErrorException(ResponseDto(409, "Data already Exists"));
+        throw ErrorException(Response.SC_CONFLICT, "Data already Exists")
          }
 
         val admin = Admin(adminName = adminLoginReqDto.username,
             password = passwordEncoder.encode(adminLoginReqDto.password), role = Role.ADMIN, academy = null)
         adminService.save(admin).orElseThrow {
-            throw ErrorException(ResponseDto(500,"Admin Save Error"))
+            throw ErrorException(500,"Admin Save Error")
         }
         return ResponseDto(200, "Success")
     }
@@ -44,25 +45,25 @@ class AuthUseCase(
 
      fun userRegister(registerReqDto: RegisterReqDto): ResponseDto<String> {
         if (userService.findByUsername(registerReqDto.username).isPresent) {
-            throw ErrorException(ResponseDto(409, "Data already Exists"));
+            throw ErrorException(Response.SC_CONFLICT, "Data already Exists")
         }
 
         val customer = Customer(0, BigDecimal.ZERO,username=registerReqDto.username, "rrn",
             password = passwordEncoder.encode(registerReqDto.password), role = Role.USER)
         userService.save(customer).orElseThrow {
-            throw ErrorException(ResponseDto(500, "User Save Error"))
+            throw ErrorException(500, "User Save Error")
         }
         return ResponseDto(200, "Success")
     }
 
      fun userLogin(loginReqDto: LoginReqDto): ResponseDataDto<String> {
         val user = userService.findByUsername(loginReqDto.username).orElseThrow {
-            ErrorException(ResponseDto(403, "Invalid Info"))
+            ErrorException(Response.SC_NOT_FOUND, "not found user info")
         }
 
         if(!passwordEncoder.matches(loginReqDto.password, user.password)
         ) {
-            throw ErrorException(ResponseDto(403, "Invalid Info"))
+            throw ErrorException(Response.SC_CONFLICT, "Invalid Info")
         }
 
         val jwtToken = jwtUtils.generateToken(loginReqDto.username)

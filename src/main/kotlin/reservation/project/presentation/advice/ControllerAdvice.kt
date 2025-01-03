@@ -19,11 +19,7 @@ class ControllerAdvice {
 
     @ExceptionHandler(ErrorException::class)
     fun errorException(e: ErrorException): ResponseEntity<*> {
-        return when (val dto = e.responseDto) {
-            is ResponseDto<*> -> ResponseEntity.status(dto.code).body(dto)
-            is ResponseDataDto<*> -> ResponseEntity.status(dto.code).body(dto)
-            else -> ResponseEntity.status(500).body("Unknown error")
-        }
+        return ResponseEntity.status(e.statusCode).body(e.errorMessage)
     }
 
     @ExceptionHandler(MethodArgumentNotValidException::class)

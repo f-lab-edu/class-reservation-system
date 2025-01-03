@@ -18,17 +18,17 @@ import reservation.project.presentation.token.dto.TokenQueueReqDto
 class TokenController {
 
     @PostMapping("/queue")
-    fun register(@Valid @RequestBody tokenQueueDto: TokenQueueReqDto): ResponseEntity<ResponseDataDto<String>>{
-        return ResponseEntity.ok(ResponseDataDto(200, "Success", "tokenJwt"))
+    fun register(@Valid @RequestBody tokenQueueDto: TokenQueueReqDto): ResponseDataDto<String>{
+        return ResponseDataDto(200, "Success", "tokenJwt")
     }
 
     @PostMapping("/get")
-    fun getInfo(@PathVariable @NotEmpty validToken: String): ResponseEntity<ResponseDto<String>>{
-        return ResponseEntity.ok(ResponseDto(200, "Success"))
+    fun getInfo(@PathVariable @NotEmpty validToken: String): ResponseDto<String>{
+        return ResponseDto(200, "Success")
     }
 
     @PutMapping("/status")
-    fun updateStatus(@PathVariable @NotEmpty validToken: String): ResponseEntity<ResponseDto<String>>{
-        return ResponseEntity.ok(ResponseDto(200, "Success"))
+    fun updateStatus(@PathVariable @NotEmpty validToken: String): ResponseDto<String>{
+        return ResponseDto(200, "Success")
     }
 }

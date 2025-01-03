@@ -13,7 +13,7 @@ data class AcademyClass(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    val classId: Long = 0,
+    val classId: Long? = null,
 
     @ManyToOne
     @JoinColumn(name = "academy_id", nullable = false)
@@ -46,14 +46,19 @@ data class AcademyClass(
     @Column(name = "id", nullable = false)
     var adminId: Long,
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "status")
     var status: ClassStatus? = null
 ){
     fun isCapacityExceeded(registeredStudents: Int): Boolean{
-        return capacity>registeredStudents
+        return capacity<=registeredStudents
     }
 
-    fun updateAcademyClass(req: AcademyClassUpdateReqDto) {
+    fun changeClassStatusToWAITING(){
+        this.status = ClassStatus.WAITING
+    }
+
+    fun toUpdateAcademyClass(req: AcademyClassUpdateReqDto) {
         this.adminId = req.adminId
         this.className = req.className
         this.capacity = req.capacity

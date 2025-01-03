@@ -1,7 +1,8 @@
-package reservation.project.domain.reservation.entity
+package reservation.project.domain.apply.entity
 
 import jakarta.persistence.*
-import reservation.project.domain.academy.entity.AcademyClass
+import reservation.project.domain.apply.status.ApplyStatus
+import reservation.project.domain.common.BaseEntity
 import java.time.LocalDate
 
 @Entity
@@ -10,7 +11,7 @@ data class Apply(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    val id: Long = 0,
+    val id: Long ? = null,
 
 
     @Column(name = "class_id", nullable = false)
@@ -19,12 +20,8 @@ data class Apply(
     @Column(name = "user_id", nullable = false)
     val userId: Long,
 
-    @Column(name = "created_at", nullable = false)
-    val createdAt: LocalDate,
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
-    val status: String,
-
-    @Column(name = "updated_at")
-    val updatedAt: LocalDate? = null
-)
+    val status: ApplyStatus,
+): BaseEntity()
