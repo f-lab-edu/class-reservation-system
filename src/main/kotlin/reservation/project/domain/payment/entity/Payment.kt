@@ -1,7 +1,7 @@
 package reservation.project.domain.payment.entity
 
 import jakarta.persistence.*
-import reservation.project.domain.reservation.entity.Reservation
+import reservation.project.domain.reservation.entity.Apply
 import java.math.BigDecimal
 import java.time.LocalDate
 
@@ -15,7 +15,7 @@ data class Payment(
 
     @ManyToOne
     @JoinColumn(name = "id", nullable = false)
-    val reservation: Reservation,
+    val apply: Apply,
 
     @Column(name = "payment_amount", nullable = false)
     val paymentAmount: BigDecimal,

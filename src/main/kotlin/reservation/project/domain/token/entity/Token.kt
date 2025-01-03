@@ -1,8 +1,7 @@
 package reservation.project.domain.token.entity
 
 import jakarta.persistence.*
-import reservation.project.domain.academy.entity.AcademyClass
-import reservation.project.domain.user.entity.Customer
+import reservation.project.domain.token.status.TokenStatus
 import java.time.LocalDateTime
 
 @Entity
@@ -17,19 +16,17 @@ data class Token(
     val accessToken: String,
 
     @Column(name = "expired_at", nullable = false)
-    val expiredAt: LocalDateTime,
+    val expiredAt: LocalDateTime?,
 
-    @ManyToOne
-    @JoinColumn(name = "id", nullable = false)
-    val customer: Customer,
+    @Column(name = "customerId", nullable = false)
+    val customerId: Long,
 
-    @ManyToOne
-    @JoinColumn(name = "id", nullable = false)
-    val academyClass: AcademyClass,
+    @Column(name = "academyClassId", nullable = false)
+    val academyClassId: Long,
 
     @Column(name = "status", nullable = false)
-    val status: String,
+    val status: TokenStatus,
 
     @Column(name = "created_at", nullable = false)
-    val createdAt: LocalDateTime
+    val createdAt: LocalDateTime?
 )

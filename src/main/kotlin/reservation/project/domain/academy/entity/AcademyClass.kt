@@ -2,6 +2,7 @@ package reservation.project.domain.academy.entity
 
 import jakarta.persistence.*
 import reservation.project.domain.academy.status.ClassStatus
+import reservation.project.presentation.academy.dto.AcademyClassUpdateReqDto
 import java.math.BigDecimal
 import java.time.LocalDateTime
 import java.time.LocalTime
@@ -19,32 +20,48 @@ data class AcademyClass(
     var academy: Academy?,
 
     @Column(name = "class_name", nullable = false)
-    val className: String,
+    var className: String,
 
     @Column(name = "capacity", nullable = false)
-    val capacity: Int,
+    var capacity: Int,
 
     @Column(name = "class_regist_start_date", nullable = false)
-    val classRegistStartDate: LocalDateTime,
+    var classRegistStartDate: LocalDateTime,
 
     @Column(name = "class_regist_deadline_date", nullable = false)
-    val classRegistDeadlineDate: LocalDateTime,
+    var classRegistDeadlineDate: LocalDateTime,
 
     @Column(name = "class_start_time", nullable = false)
-    val classStartTime: LocalTime,
+    var classStartTime: LocalTime,
 
     @Column(name = "class_close_time", nullable = false)
-    val classCloseTime: LocalTime,
+    var classCloseTime: LocalTime,
 
     @Column(name = "class_tuition", nullable = false)
-    val classTuition: BigDecimal,
+    var classTuition: BigDecimal,
 
     @Column(name = "class_instructor", nullable = false)
     var classInstructor: String,
 
     @Column(name = "id", nullable = false)
-    val adminId: Long,
+    var adminId: Long,
 
     @Column(name = "status")
     var status: ClassStatus? = null
-)
+){
+    fun isCapacityExceeded(registeredStudents: Int): Boolean{
+        return capacity>registeredStudents
+    }
+
+    fun updateAcademyClass(req: AcademyClassUpdateReqDto) {
+        this.adminId = req.adminId
+        this.className = req.className
+        this.capacity = req.capacity
+        this.classRegistStartDate = req.classRegistStartDate
+        this.classRegistDeadlineDate = req.classRegistDeadlineDate
+        this.classStartTime = req.classStartTime
+        this.classCloseTime = req.classCloseTime
+        this.classTuition = req.classTuition
+        this.classInstructor = req.classInstructor
+    }
+}

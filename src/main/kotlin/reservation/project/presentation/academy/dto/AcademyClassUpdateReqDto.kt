@@ -13,9 +13,6 @@ data class AcademyClassUpdateReqDto(
     @field:NotBlank(message = "유효하지 않은 학원정보입니다.")
     val academyId: Long,
 
-    @field:NotBlank(message = "유효하지 않은 유저정보입니다.")
-    val customerId: Long,
-
     @field:NotBlank(message = "유효하지 않은 강사정보입니다.")
     val adminId: Long,
 

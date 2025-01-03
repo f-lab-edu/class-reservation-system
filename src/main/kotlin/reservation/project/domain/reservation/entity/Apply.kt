@@ -5,16 +5,16 @@ import reservation.project.domain.academy.entity.AcademyClass
 import java.time.LocalDate
 
 @Entity
-@Table(name = "reservation")
-data class Reservation(
+@Table(name = "apply")
+data class Apply(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     val id: Long = 0,
 
-    @ManyToOne
-    @JoinColumn(name = "id", nullable = false)
-    val academyClass: AcademyClass,
+
+    @Column(name = "class_id", nullable = false)
+    val classId: Long,
 
     @Column(name = "user_id", nullable = false)
     val userId: Long,
