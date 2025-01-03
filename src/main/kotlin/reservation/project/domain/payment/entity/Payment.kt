@@ -1,9 +1,10 @@
 package reservation.project.domain.payment.entity
 
 import jakarta.persistence.*
-import reservation.project.domain.apply.entity.Apply
+import reservation.project.domain.common.BaseEntity
+import reservation.project.domain.payment.status.PaymentMethodStatus
+import reservation.project.domain.payment.status.PaymentStatus
 import java.math.BigDecimal
-import java.time.LocalDate
 
 @Entity
 @Table(name = "payment")
@@ -11,18 +12,22 @@ data class Payment(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    val paymentId: Long = 0,
+    val id: Long = 0,
 
-    @ManyToOne
-    @JoinColumn(name = "id", nullable = false)
-    val apply: Apply,
+    @Column(name = "order_id", nullable = false)
+    val orderId: String,
 
     @Column(name = "payment_amount", nullable = false)
     val paymentAmount: BigDecimal,
 
-    @Column(name = "payment_date", nullable = false)
-    val paymentDate: LocalDate,
-
+    @Enumerated(EnumType.STRING)
     @Column(name = "payment_status", nullable = false)
-    val paymentStatus: String
-)
+    val paymentStatus: PaymentStatus,
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "payment_method", nullable = false)
+    val paymentMethod: PaymentMethodStatus, // 'TOSS', 'KAKAOPAY', etc.
+
+    @Column(name = "transaction_id")
+    val transactionId: String? = null// 결제사 공통 트랜잭션 ID
+): BaseEntity()
