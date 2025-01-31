@@ -2,12 +2,11 @@ package reservation.project.presentation.academy
 
 import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
-import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import reservation.project.application.academy.AcademyUseCase
 import reservation.project.presentation.academy.dto.AcademyRegisterInfoDto
 import reservation.project.presentation.academy.dto.AcademyUpdateInfoReqDto
-import reservation.project.presentation.response.ResponseDataDto
+import reservation.project.presentation.academy.dto.InstructorRegisterInfoDto
 import reservation.project.presentation.response.ResponseDto
 
 @RestController
@@ -26,5 +25,11 @@ class AcademyController(
     @PatchMapping("/update")
     fun updateAcademy(@Valid @RequestBody request: AcademyUpdateInfoReqDto): ResponseDto<Boolean> {
         return academyUseCase.updateAcademyInfo(request)
+    }
+
+    @Tag(name = "Academy Instructor Regist", description = "학원 강사 등록")
+    @PatchMapping("/instructor/register")
+    fun registerAcademyInstructor(@Valid @RequestBody request: InstructorRegisterInfoDto): ResponseDto<Boolean> {
+        return academyUseCase.registerAcademyInstructorInfo(request)
     }
 }
