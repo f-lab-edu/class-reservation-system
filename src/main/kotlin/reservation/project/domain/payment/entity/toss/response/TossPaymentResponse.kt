@@ -1,6 +1,5 @@
 package reservation.project.domain.payment.entity.toss.response
 
-import reservation.project.domain.payment.entity.PaymentResponse
 import java.math.BigDecimal
 
 data class TossPaymentResponse(
@@ -36,23 +35,23 @@ data class TossPaymentResponse(
     val easyPay: EasyPay?,
     val discount: Discount?,
 ) {
-    fun toResponse(): PaymentResponse {
-        return PaymentResponse(
-            version,
-            paymentKey,
-            type,
-            orderId,
-            orderName,
-            mId,
-            currency,
-            method,
-            totalAmount,
-            status,
-            requestedAt,
-            approvedAt,
-            receipt,
-            country,
-            failure,
-        )
-    }
+//    fun toResponse(): PaymentResponse {
+//        return PaymentResponse(
+//            version,
+//            paymentKey,
+//            type,
+//            orderId,
+//            orderName,
+//            mId,
+//            currency,
+//            method,
+//            totalAmount,
+//            status,
+//            requestedAt,
+//            approvedAt,
+//            receipt,
+//            country,
+//            failure,
+//        )
+//    }
 }

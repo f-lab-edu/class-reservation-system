@@ -4,9 +4,9 @@ import io.swagger.v3.oas.annotations.tags.Tag
 import jakarta.validation.Valid
 import org.springframework.web.bind.annotation.*
 import reservation.project.application.academy.AcademyUseCase
-import reservation.project.presentation.academy.dto.AcademyRegisterInfoDto
-import reservation.project.presentation.academy.dto.AcademyUpdateInfoReqDto
-import reservation.project.presentation.academy.dto.InstructorRegisterInfoDto
+import reservation.project.presentation.academy.dto.academy.AcademyRegisterInfoDto
+import reservation.project.presentation.academy.dto.academy.AcademyUpdateInfoReqDto
+import reservation.project.presentation.academy.dto.academy.InstructorRegisterInfoDto
 import reservation.project.presentation.response.ResponseDto
 
 @RestController

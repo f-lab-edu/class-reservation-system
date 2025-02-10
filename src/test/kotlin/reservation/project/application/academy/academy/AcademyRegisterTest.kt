@@ -1,17 +1,6 @@
 package com.project.practice.application.academy
 
-import com.project.practice.domain.academy.repository.AcademyInstructorRepository
-import com.project.practice.domain.academy.repository.AcademyRepository
-import com.project.practice.domain.academy.service.AcademyInstructorService
-import com.project.practice.domain.academy.service.AcademyService
-import com.project.practice.domain.customer.entity.Customers
-import com.project.practice.domain.customer.repository.CustomerRepository
-import com.project.practice.domain.customer.service.CustomerService
-import com.project.practice.presentation.academy.dto.AcademyRegisterInfoDto
-import com.project.practice.presentation.advice.exception.ErrorException
-import com.project.practice.service.academy.repository.AcademyFakeJpaRepository
-import com.project.practice.service.academy.repository.AcademyInstructorFakeRepository
-import com.project.practice.service.customer.repository.CustomerFakeRepository
+
 import org.apache.catalina.connector.Response
 import org.assertj.core.api.Assertions.*
 import org.junit.jupiter.api.Assertions.*
@@ -19,6 +8,19 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
+import reservation.project.application.academy.AcademyUseCase
+import reservation.project.domain.academy.repository.AcademyInstructorRepository
+import reservation.project.domain.academy.repository.AcademyRepository
+import reservation.project.domain.academy.service.AcademyInstructorService
+import reservation.project.domain.academy.service.AcademyService
+import reservation.project.domain.customer.entity.Customer
+import reservation.project.domain.customer.repository.CustomerRepository
+import reservation.project.domain.customer.service.CustomerService
+import reservation.project.presentation.academy.dto.academy.AcademyRegisterInfoDto
+import reservation.project.presentation.advice.exception.ErrorException
+import reservation.project.service.academy.repository.AcademyFakeJpaRepository
+import reservation.project.service.academy.repository.AcademyInstructorFakeRepository
+import reservation.project.service.customer.repository.CustomerFakeRepository
 
 class AcademyRegisterTest {
 
@@ -52,7 +54,7 @@ class AcademyRegisterTest {
     fun `The entity responsible for academy registration must be an Admin`() {
 
         //given
-        val customerResult = customerService.saveCustomer(Customers(0, "uid", "1234", "name", "USER"))
+        val customerResult = customerService.saveCustomer(Customer(0, "uid", "1234", "name", "USER"))
         val request = AcademyRegisterInfoDto(customerResult.uid, "academy", 2L, "2025/01/30 15:30","2025/01/30 20:30", "서울", "url", "01011112222", "MASTER")
 
         //when
@@ -69,7 +71,7 @@ class AcademyRegisterTest {
     @Test
     fun `Success Save Academy Info`() {
         // given
-        val customerResult = customerService.saveCustomer(Customers(0, "uid", "1234", "name", "ADMIN"))
+        val customerResult = customerService.saveCustomer(Customer(0, "uid", "1234", "name", "ADMIN"))
         val request = AcademyRegisterInfoDto(customerResult.uid, "academy", 2L, "2025/01/30 15:30","2025/01/30 20:30", "서울", "url", "01011112222", "MASTER")
 
         //when
@@ -85,7 +87,7 @@ class AcademyRegisterTest {
     @Test
     fun `Success Save Academy and Instructor`() {
         // given
-        val customerResult = customerService.saveCustomer(Customers(0, "uid", "1234", "name", "ADMIN"))
+        val customerResult = customerService.saveCustomer(Customer(0, "uid", "1234", "name", "ADMIN"))
         val request = AcademyRegisterInfoDto(customerResult.uid, "academy", 2L, "2025/01/30 15:30","2025/01/30 20:30", "서울", "url", "01011112222", "MASTER")
 
         //when
@@ -103,7 +105,7 @@ class AcademyRegisterTest {
     @Test
     fun `Success Save Test`() {
         // given
-        val customerResult = customerService.saveCustomer(Customers(0, "uid", "1234", "name", "ADMIN"))
+        val customerResult = customerService.saveCustomer(Customer(0, "uid", "1234", "name", "ADMIN"))
         val request = AcademyRegisterInfoDto(customerResult.uid, "academy", 2L, "2025/01/30 15:30","2025/01/30 20:30", "서울", "url", "01011112222", "MASTER")
 
         //when

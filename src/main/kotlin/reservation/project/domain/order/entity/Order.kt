@@ -6,7 +6,7 @@ import reservation.project.domain.order.status.OrderStatus
 import java.math.BigDecimal
 
 @Entity
-@Table(name = "order")
+@Table(name = "orders")
 data class Order(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

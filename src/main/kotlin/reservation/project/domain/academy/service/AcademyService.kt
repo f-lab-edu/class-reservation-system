@@ -5,11 +5,10 @@ import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import reservation.project.domain.academy.entity.Academy
 import reservation.project.domain.academy.repository.AcademyRepository
-import reservation.project.presentation.academy.dto.AcademyUpdateDto
+import reservation.project.presentation.academy.dto.academy.AcademyUpdateDto
 import reservation.project.presentation.advice.exception.ErrorException
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
-import java.util.*
 
 @Service
 class AcademyService(

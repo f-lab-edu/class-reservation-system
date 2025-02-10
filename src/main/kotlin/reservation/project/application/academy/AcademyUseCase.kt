@@ -9,9 +9,9 @@ import reservation.project.domain.academy.service.AcademyInstructorService
 import reservation.project.domain.academy.service.AcademyService
 import reservation.project.domain.customer.entity.Role
 import reservation.project.domain.customer.service.CustomerService
-import reservation.project.presentation.academy.dto.AcademyRegisterInfoDto
-import reservation.project.presentation.academy.dto.AcademyUpdateInfoReqDto
-import reservation.project.presentation.academy.dto.InstructorRegisterInfoDto
+import reservation.project.presentation.academy.dto.academy.AcademyRegisterInfoDto
+import reservation.project.presentation.academy.dto.academy.AcademyUpdateInfoReqDto
+import reservation.project.presentation.academy.dto.academy.InstructorRegisterInfoDto
 import reservation.project.presentation.advice.exception.ErrorException
 import reservation.project.presentation.response.ResponseDto
 import java.time.LocalDateTime

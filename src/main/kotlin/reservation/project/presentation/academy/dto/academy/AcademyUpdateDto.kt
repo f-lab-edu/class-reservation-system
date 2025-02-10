@@ -1,4 +1,4 @@
-package reservation.project.presentation.academy.dto
+package reservation.project.presentation.academy.dto.academy
 
 import reservation.project.domain.academy.entity.Academy
 

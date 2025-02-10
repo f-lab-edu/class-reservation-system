@@ -45,6 +45,9 @@ dependencies {
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 	testImplementation("org.mockito.kotlin:mockito-kotlin:5.0.0")
 	implementation(kotlin("stdlib-jdk8"))
+
+	implementation("com.h2database:h2") // H2 DB 추가
+	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
 kotlin {

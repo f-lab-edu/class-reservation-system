@@ -1,26 +1,27 @@
 package com.project.practice.application.academy
 
-import com.project.practice.domain.academy.entity.Academy
-import com.project.practice.domain.academy.entity.AcademyInstructor
-import com.project.practice.domain.academy.entity.InstructorRole
-import com.project.practice.domain.academy.repository.AcademyInstructorRepository
-import com.project.practice.domain.academy.repository.AcademyRepository
-import com.project.practice.domain.academy.service.AcademyInstructorService
-import com.project.practice.domain.academy.service.AcademyService
-import com.project.practice.domain.customer.entity.Customers
-import com.project.practice.domain.customer.repository.CustomerRepository
-import com.project.practice.domain.customer.service.CustomerService
-import com.project.practice.presentation.academy.dto.AcademyUpdateInfoReqDto
-import com.project.practice.presentation.advice.exception.ErrorException
-import com.project.practice.service.academy.repository.AcademyFakeJpaRepository
-import com.project.practice.service.academy.repository.AcademyInstructorFakeRepository
-import com.project.practice.service.customer.repository.CustomerFakeRepository
 import org.apache.catalina.connector.Response
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
+import reservation.project.application.academy.AcademyUseCase
+import reservation.project.domain.academy.entity.Academy
+import reservation.project.domain.academy.entity.AcademyInstructor
+import reservation.project.domain.academy.entity.InstructorRole
+import reservation.project.domain.academy.repository.AcademyInstructorRepository
+import reservation.project.domain.academy.repository.AcademyRepository
+import reservation.project.domain.academy.service.AcademyInstructorService
+import reservation.project.domain.academy.service.AcademyService
+import reservation.project.domain.customer.entity.Customer
+import reservation.project.domain.customer.repository.CustomerRepository
+import reservation.project.domain.customer.service.CustomerService
+import reservation.project.presentation.academy.dto.academy.AcademyUpdateInfoReqDto
+import reservation.project.presentation.advice.exception.ErrorException
+import reservation.project.service.academy.repository.AcademyFakeJpaRepository
+import reservation.project.service.academy.repository.AcademyInstructorFakeRepository
+import reservation.project.service.customer.repository.CustomerFakeRepository
 import java.time.LocalDateTime
 
 class AcademyUpdateTest {
@@ -55,7 +56,7 @@ class AcademyUpdateTest {
     fun `Fail Test When Not exists Academy`() {
         //given
         val local = LocalDateTime.now()
-        val customerInfo = customerService.saveCustomer(Customers(0, "uid", "1234", "name", "ADMIN"))
+        val customerInfo = customerService.saveCustomer(Customer(0, "uid", "1234", "name", "ADMIN"))
         academyService.saveAcademy(Academy(0, "name", 1L, local, local.plusHours(5), "location", "url", "0101111111", local, local))
         academyInstructorService.saveInfo(AcademyInstructor(id = 0, academyId = 1L, role = InstructorRole.NORMAL ,customerId = 1L))
 
@@ -76,7 +77,7 @@ class AcademyUpdateTest {
     fun `Fail Test When Not a Master`() {
         //given
         val local = LocalDateTime.now()
-        val customerInfo = customerService.saveCustomer(Customers(0, "uid", "1234", "name", "ADMIN"))
+        val customerInfo = customerService.saveCustomer(Customer(0, "uid", "1234", "name", "ADMIN"))
         val academyInfo = academyService.saveAcademy(Academy(0, "name", 1L, local, local.plusHours(5), "location", "url", "0101111111", local, local))
         academyInstructorService.saveInfo(AcademyInstructor(id = 0, academyId = 1L, role = InstructorRole.NORMAL ,customerId = 1L))
 
@@ -97,7 +98,7 @@ class AcademyUpdateTest {
     fun `Success Update Test Info2`() {
         //given
         val local = LocalDateTime.now()
-        val customerInfo = customerService.saveCustomer(Customers(0, "uid", "1234", "name", "ADMIN"))
+        val customerInfo = customerService.saveCustomer(Customer(0, "uid", "1234", "name", "ADMIN"))
         val academyInfo = academyService.saveAcademy(Academy(0, "name", 1L, local, local.plusHours(5), "location", "url", "0101111111", local, local))
         academyInstructorService.saveInfo(AcademyInstructor(id = 0, academyId = 1L, role = InstructorRole.MASTER ,customerId = 1L))
 
@@ -117,7 +118,7 @@ class AcademyUpdateTest {
     fun `Success Update Test Info3`() {
         //given
         val local = LocalDateTime.now()
-        val customerInfo = customerService.saveCustomer(Customers(0, "uid", "1234", "name", "ADMIN"))
+        val customerInfo = customerService.saveCustomer(Customer(0, "uid", "1234", "name", "ADMIN"))
         val academyInfo = academyService.saveAcademy(Academy(0, "name", 1L, local, local.plusHours(5), "location", "url", "0101111111", local, local))
         academyInstructorService.saveInfo(AcademyInstructor(id = 0, academyId = 1L, role = InstructorRole.MASTER ,customerId = 1L))
 

@@ -18,7 +18,7 @@ data class CustomerPaymentInfo(
     @Column(name = "customer_id", nullable = false)
     val customerId: Long,
 
-    @Enumerated(EnumType.STRING)
-    @Column(name="payment_method",nullable = false)
-    val paymentMethod: PaymentMethod
+//    @Enumerated(EnumType.STRING)
+//    @Column(name="payment_method",nullable = false)
+//    val paymentMethod: PaymentMethod
 )

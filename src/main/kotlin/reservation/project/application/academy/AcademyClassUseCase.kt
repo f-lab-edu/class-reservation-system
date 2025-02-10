@@ -2,136 +2,74 @@ package reservation.project.application.academy
 
 import org.apache.catalina.connector.Response
 import org.springframework.stereotype.Component
-import reservation.project.application.security.util.JwtUtils
-import reservation.project.domain.academy.entity.AcademyClass
 import reservation.project.domain.academy.service.AcademyClassService
+import reservation.project.domain.academy.service.AcademyInstructorService
 import reservation.project.domain.academy.service.AcademyService
 import reservation.project.domain.academy.status.ClassStatus
-import reservation.project.domain.admin.service.AdminService
-import reservation.project.domain.apply.service.ApplyService
-import reservation.project.domain.token.entity.Token
-import reservation.project.domain.token.service.TokenService
-import reservation.project.domain.token.status.TokenStatus
-import reservation.project.presentation.academy.dto.AcademyClassRegisterReqDto
-import reservation.project.presentation.academy.dto.AcademyClassReqDto
-import reservation.project.presentation.academy.dto.AcademyClassUpdateReqDto
-import reservation.project.presentation.academy.dto.ApplyReqDto
+import reservation.project.domain.academy.entity.Apply
+import reservation.project.domain.academy.service.ApplyService
+import reservation.project.domain.customer.entity.Role
+import reservation.project.domain.customer.service.CustomerService
+import reservation.project.presentation.academy.dto.academyClass.AcademyClassRequest
+import reservation.project.presentation.academy.dto.academyClass.AppliedInfoRequest
 import reservation.project.presentation.advice.exception.ErrorException
 import reservation.project.presentation.response.ResponseDto
 
 @Component
 class AcademyClassUseCase(
-    private val academyClassService: AcademyClassService,
+    private val customerService: CustomerService,
     private val academyService: AcademyService,
-    private val adminService: AdminService,
-    private val applyService: ApplyService,
-    private val tokenService: TokenService,
-    private val jwtUtils: JwtUtils
+    private val academyInstructorService: AcademyInstructorService,
+    private val academyClassService: AcademyClassService,
+    private val applyService: ApplyService
 ) {
 
-    fun enrollInClass(req: ApplyReqDto) {
-        // 강의 존재 여부
-        val findClassInfo = academyClassService.findByAcademyClassId(req.classId).orElseThrow {
-            ErrorException(Response.SC_NOT_FOUND, "not found AcademyInfo")
-        }
-        // 강의 상태 여부
-        if(findClassInfo.status != ClassStatus.PROGRESS){
-           throw ErrorException(Response.SC_CONFLICT, "this is not a class in progress")
-        }
-        // 인원체크
-        val findApplyInfo = applyService.findByClassId(req.classId).size
-        if(findClassInfo.isCapacityExceeded(findApplyInfo)) {
-            throw ErrorException(Response.SC_CONFLICT, "over capacity")
+    fun saveClassInfo(req: AcademyClassRequest): ResponseDto<Boolean> {
+        val customerInfo = customerService.findCustomerInfo(req.customerUid)
+        if(customerInfo!!.roles != Role.ADMIN.toString()){
+            throw ErrorException(Response.SC_BAD_REQUEST, "Not Admin")
         }
 
-        // 대기열 체크
-        val queueInfo = tokenService.findByAcademyClassIdAndCustomerId(req.classId, req.userId)
-        if(queueInfo.isPresent && !queueInfo.get().isQueueCanceled()){
-            throw ErrorException(Response.SC_CONFLICT, "this information is already being applied for")
-        }
-        val queueAccessToken = jwtUtils.accessToken(req.classId, req.userId)
-        val tokenInfo = jwtUtils.extractTokenDetails(queueAccessToken)
-        val queue = Token(0, queueAccessToken, tokenInfo["expiration"], req.userId, req.classId, TokenStatus.PENDING, tokenInfo["issuedAt"])
+        val academyInfo = academyService.findAcademyInfo(customerInfo.id)
+        academyInstructorService.findInfoByAcademyIdAndCustomerId(customerInfo.id, academyInfo.id)
 
-        // 대기열 추가
-        tokenService.addQueue(queue).orElseThrow {
-            ErrorException(Response.SC_BAD_REQUEST, "Add Queue Error")
-        }
+        academyClassService.save(req.toEntity(ClassStatus.WAITING))
 
+        return ResponseDto(200, true)
     }
 
-    fun registerClassInfo(req: AcademyClassRegisterReqDto) {
-        val findAcademyResult = academyService.findByAcademyId(req.academyId).orElseThrow {
-            ErrorException(Response.SC_NOT_FOUND, "not found AcademyInfo")
-        }
-        val findAdminInfo = adminService.findByAdminId(req.adminId).orElseThrow {
-            ErrorException(Response.SC_NOT_FOUND, "not found AdminInfo")
+    fun applyStudent(req: AppliedInfoRequest): ResponseDto<Boolean>{
+        val academyInfo = academyService.findAcademyInfo(req.academyId)
+        val academyClassInfo = academyClassService.findById(req.classId)
+        if(academyClassInfo.classStatus != ClassStatus.OPEN){
+            throw ErrorException(Response.SC_NOT_FOUND, "Class is Not Opened")
         }
 
-        val toEntity = req.toEntity()
-        toEntity.academy = findAcademyResult
-        toEntity.changeClassStatusToWAITING()
-        toEntity.classInstructor = findAdminInfo.adminName.toString()
+        val customerInfo = customerService.findCustomerInfo(req.userUid)
 
-        academyClassService.save(toEntity).orElseThrow {
-            ErrorException(Response.SC_BAD_REQUEST, "AcademyClass Save Error")
+        if(customerInfo!!.roles != Role.USER.toString()){
+            throw ErrorException(Response.SC_BAD_REQUEST, "Not User")
         }
+
+        val applyInfo = applyService.findByAcademyClassIdAndCustomerId(academyClassInfo.id!!, customerInfo.id)
+        if(applyInfo != null){
+            throw ErrorException(Response.SC_BAD_REQUEST, "Class Applied")
+        }
+
+        if (!academyClassInfo.canApply()){
+            throw ErrorException(Response.SC_BAD_REQUEST, "The Class is full")
+        }
+
+        academyClassService.applyFor(Apply(academyClass = academyClassInfo, customerId = customerInfo.id))
+
+        return ResponseDto(200, true)
     }
 
-    fun updateClassInfo(req: AcademyClassUpdateReqDto) {
-        var classInfo = academyClassService.findByAcademyClassId(req.classId).orElseThrow {
-            ErrorException(Response.SC_NOT_FOUND, "not found AcademyClassInfo")
-        }
-        academyService.findByAcademyId(req.academyId).orElseThrow {
-            ErrorException(Response.SC_NOT_FOUND, "not found AcademyInfo")
-        }
+    fun updateClassInfo(){}
 
-        adminService.findByAdminId(req.adminId).orElseThrow {
-            ErrorException(Response.SC_NOT_FOUND, "not found AdminInfo")
-        }
+    fun findClassInfo() {}
 
-        classInfo.toUpdateAcademyClass(req)
-
-        academyClassService.update(classInfo).orElseThrow {
-            ErrorException(Response.SC_BAD_REQUEST, "AcademyClass Update Error")
-        }
-
-    }
-
-    fun findByAcademyId(academyId: Long): List<AcademyClass> {
-        val result = academyClassService.findByAcademyId(academyId)
-        if(result.isEmpty()) throw ErrorException(Response.SC_NOT_FOUND, "not found AcademyClassInfo")
-
-        return result
-    }
-
-    fun findByAcademyClassId(academyClassId: Long): AcademyClass {
-        val result = academyClassService.findByAcademyClassId(academyClassId).orElseThrow {
-            ErrorException(Response.SC_NOT_FOUND, "not found AcademyClassInfo")
-        }
-        return result
-    }
-
-    fun findByCustomerId(CustomerId: Long): List<AcademyClass> {
-        val result = academyClassService.findByCustomerId(CustomerId)
-        if(result.isEmpty()) throw ErrorException(Response.SC_NOT_FOUND, "not found AcademyClassInfo")
-
-        return result
-    }
-
-    fun findByAdminId(adminId: Long): List<AcademyClass> {
-        val result = academyClassService.findByAdminId(adminId)
-        if(result.isEmpty()) throw ErrorException(Response.SC_NOT_FOUND, "not found AcademyClassInfo")
-
-        return result
-    }
-
-    fun findByAcademyIdAndAdminId(req: AcademyClassReqDto): AcademyClass {
-        val result = academyClassService.findByAcademyIdAndAdminId(req.academyId, req.adminId).orElseThrow {
-            ErrorException(Response.SC_NOT_FOUND, "not found AcademyClassInfo")
-        }
-        return result
-    }
+    fun cancelApply(){}
 
 
 }
