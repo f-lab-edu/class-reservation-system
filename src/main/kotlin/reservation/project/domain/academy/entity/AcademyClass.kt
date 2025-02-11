@@ -2,71 +2,90 @@ package reservation.project.domain.academy.entity
 
 import jakarta.persistence.*
 import reservation.project.domain.academy.status.ClassStatus
-import reservation.project.presentation.academy.dto.AcademyClassUpdateReqDto
-import java.math.BigDecimal
+import reservation.project.presentation.academy.dto.academyClass.AcademyClassUpdateDto
 import java.time.LocalDateTime
-import java.time.LocalTime
 
 @Entity
 @Table(name = "academy_class")
-data class AcademyClass(
+class AcademyClass(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    val classId: Long? = null,
+    var id: Long? = null,
 
-    @ManyToOne
-    @JoinColumn(name = "academy_id", nullable = false)
-    var academy: Academy?,
+    @Version
+    var version: Int? = null,
 
-    @Column(name = "class_name", nullable = false)
+    @Column(nullable = false)
     var className: String,
 
-    @Column(name = "capacity", nullable = false)
-    var capacity: Int,
+    @Column(nullable = false)
+    var maxAppliedStudents: Int = 0, // 강의 신청 인원
 
-    @Column(name = "class_regist_start_date", nullable = false)
-    var classRegistStartDate: LocalDateTime,
+    @Column(nullable = false)
+    var applicationStartTime: LocalDateTime, // 강의 신청 등록 시간
 
-    @Column(name = "class_regist_deadline_date", nullable = false)
-    var classRegistDeadlineDate: LocalDateTime,
-
-    @Column(name = "class_start_time", nullable = false)
-    var classStartTime: LocalTime,
-
-    @Column(name = "class_close_time", nullable = false)
-    var classCloseTime: LocalTime,
-
-    @Column(name = "class_tuition", nullable = false)
-    var classTuition: BigDecimal,
-
-    @Column(name = "class_instructor", nullable = false)
-    var classInstructor: String,
-
-    @Column(name = "id", nullable = false)
-    var adminId: Long,
+    @Column(nullable = false)
+    var applicationEndTime: LocalDateTime, // 강의 신청 마감 시간
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "status")
-    var status: ClassStatus? = null
-){
-    fun isCapacityExceeded(registeredStudents: Int): Boolean{
-        return capacity<=registeredStudents
+    @Column(nullable = false)
+    var classStatus: ClassStatus, // 강의 등록 상태
+
+    @Column(nullable = false)
+    var classStartTime: LocalDateTime, // 수업 운영 시작 시간
+
+    @Column(nullable = false)
+    var classEndTime: LocalDateTime, // 수업 운영 마감 시간
+
+    @Column(nullable = false)
+    var classDays: String, // 요일을 "MONDAY,TUESDAY" 형태로 저장
+
+    @Column(nullable = false)
+    var tuitionFee: Int, // 수업료
+
+    @Column(nullable = false)
+    var academyId: Long, // 학원 ID
+
+    @OneToMany(mappedBy = "academyClass", fetch = FetchType.EAGER)
+    var applications: MutableList<Apply> = mutableListOf()
+) {
+
+    constructor() : this(
+        id = null,
+        version = null,
+        className = "",
+        maxAppliedStudents = 0,
+        applicationStartTime = LocalDateTime.now(),
+        applicationEndTime = LocalDateTime.now(),
+        classStatus = ClassStatus.WAITING, // 기본값 설정
+        classStartTime = LocalDateTime.now(),
+        classEndTime = LocalDateTime.now(),
+        classDays = "",
+        tuitionFee = 0,
+        academyId = 0L
+    )
+
+    fun updateFromDto(updateDto: AcademyClassUpdateDto) {
+        updateDto.className?.let { this.className = it }
+        updateDto.maxAppliedStudents?.let { this.maxAppliedStudents = it }
+        updateDto.applicationStartTime?.let { this.applicationStartTime = it }
+        updateDto.applicationEndTime?.let { this.applicationEndTime = it }
+        updateDto.classStatus?.let { this.classStatus = it }
+        updateDto.classStartTime?.let { this.classStartTime = it }
+        updateDto.classEndTime?.let { this.classEndTime = it }
+        updateDto.classDays?.let { this.classDays = it }
+        updateDto.tuitionFee?.let { this.tuitionFee = it }
+        updateDto.academyId?.let { this.academyId = it }
     }
 
-    fun changeClassStatusToWAITING(){
-        this.status = ClassStatus.WAITING
+    fun getClassDaysList(): List<String> = classDays.split(",")
+    fun setClassDaysList(days: List<String>) {
+        classDays = days.joinToString(",")
     }
 
-    fun toUpdateAcademyClass(req: AcademyClassUpdateReqDto) {
-        this.adminId = req.adminId
-        this.className = req.className
-        this.capacity = req.capacity
-        this.classRegistStartDate = req.classRegistStartDate
-        this.classRegistDeadlineDate = req.classRegistDeadlineDate
-        this.classStartTime = req.classStartTime
-        this.classCloseTime = req.classCloseTime
-        this.classTuition = req.classTuition
-        this.classInstructor = req.classInstructor
+    fun canApply(): Boolean {
+        return applications.size < maxAppliedStudents  // 현재 신청 인원 확인
     }
+
+
 }
