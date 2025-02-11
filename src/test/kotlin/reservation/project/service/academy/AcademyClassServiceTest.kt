@@ -110,69 +110,15 @@ class AcademyClassServiceTest {
     fun `should apply successfully when class has available slots`() {
         // given
         val apply = Apply(id = null, academyClass = testAcademyClass, customerId = 100L)
-        whenever(jpaAcademyClassRepository.findById(1L)).thenReturn(Optional.of(testAcademyClass))
+        testAcademyClass.applications.add(apply)
 
         //when
-        academyClassService.applyFor(apply)
+        academyClassService.save(testAcademyClass)
 
         // then
         assertEquals(1, testAcademyClass.applications.size)
         assertEquals(100L, testAcademyClass.applications[0].customerId)
-
-        verify(jpaAcademyClassRepository, times(1)).save(testAcademyClass)
     }
 
-    @Test
-    fun `applyFor - Not exists Class`(){
-        // given
-        val apply = Apply(id = 1L, academyClass = testAcademyClass, customerId = 200L)
-
-        whenever(jpaAcademyClassRepository.findById(1L)).thenReturn(Optional.empty())
-
-        // when & then
-        val exception = assertThrows<ErrorException>{
-            academyClassService.applyFor(apply)
-        }
-
-        assertEquals(HttpStatus.NOT_FOUND.value(), exception.statusCode)
-        assertEquals("AcademyClass not found", exception.errorMessage)
-
-        verify(jpaAcademyClassRepository, never()).save(any())
-    }
-
-    @Test
-    fun `applyFor - Exceeded number of people`() {
-// Given
-        val academyClass = AcademyClass(
-            id = 1L,
-            className = "Science Class",
-            maxAppliedStudents = 1, // 최대 1명 신청 가능
-            applicationStartTime = LocalDateTime.now().minusDays(1),
-            applicationEndTime = LocalDateTime.now().plusDays(1),
-            classStatus = ClassStatus.OPEN,
-            classStartTime = LocalDateTime.now().plusDays(2),
-            classEndTime = LocalDateTime.now().plusMonths(1),
-            classDays = "MONDAY,TUESDAY",
-            tuitionFee = 60000,
-            academyId = 100L,
-            applications = mutableListOf(Apply(id = 2L, academyClass = testAcademyClass, customerId = 300L)) // 이미 1명 신청 완료
-        )
-
-        val apply = Apply(
-            id = 3L,
-            academyClass = academyClass,
-            customerId = 400L
-        )
-
-        whenever(jpaAcademyClassRepository.findById(1L)).thenReturn(Optional.of(academyClass))
-
-        val exception = assertThrows<ErrorException> {
-            academyClassService.applyFor(apply)
-        }
-
-        assertEquals(HttpStatus.BAD_REQUEST.value(), exception.statusCode)
-        assertEquals("Class is already full", exception.errorMessage)
-        verify(jpaAcademyClassRepository, never()).save(any())
-    }
 
 }

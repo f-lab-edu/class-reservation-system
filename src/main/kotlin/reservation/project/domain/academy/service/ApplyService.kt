@@ -12,10 +12,6 @@ class ApplyService(
 ) {
 
     fun saveInfo(apply: Apply): Apply {
-        if (apply.id != null && !jpaApplyRepository.existsById(apply.id!!)) {
-            throw ErrorException(Response.SC_BAD_REQUEST, "Invalid Apply ID")
-        }
-
         return jpaApplyRepository.save(apply)
     }
 

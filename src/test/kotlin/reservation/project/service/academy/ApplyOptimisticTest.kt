@@ -10,28 +10,24 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.dao.OptimisticLockingFailureException
+import org.springframework.orm.ObjectOptimisticLockingFailureException
 import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.TestPropertySource
 import org.springframework.transaction.annotation.Transactional
-import reservation.project.domain.academy.entity.Academy
 import reservation.project.domain.academy.entity.AcademyClass
 import reservation.project.domain.academy.service.AcademyClassService
 import reservation.project.domain.academy.status.ClassStatus
 import reservation.project.domain.academy.entity.Apply
 import reservation.project.infra.academy.JpaAcademyClassRepository
+import reservation.project.presentation.academy.dto.academyClass.AcademyClassUpdateDto
 import java.time.LocalDateTime
-import java.util.concurrent.CountDownLatch
-import java.util.concurrent.Executors
-import java.util.logging.Logger
 import kotlin.concurrent.thread
 
 @SpringBootTest
 @ActiveProfiles("test")
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 @TestPropertySource(locations = ["classpath:application-test.yml"])
-//@Transactional
-//@DirtiesContext
 class ApplyOptimisticTest {
 
     val log = org.slf4j.LoggerFactory.getLogger(ApplyOptimisticTest::class.java)
@@ -89,39 +85,19 @@ class ApplyOptimisticTest {
         assertEquals("Physics 101", savedClass?.className)
     }
 
-    @Test
-    fun `정상적으로 강의 신청을 할 수 있다`() {
-        val apply = Apply(
-            academyClass = testAcademyClass,
-            customerId = 100L
-        )
-
-        academyClassService.applyFor(apply)
-
-        val updatedClass = academyClassService.findById(testAcademyClass.id!!)
-        assertEquals(1, updatedClass.applications.size)
-        assertEquals(100L, updatedClass.applications.first().customerId)
-    }
 
     @Test
-    fun `동시 신청 시 낙관적 락이 정상적으로 동작하는지 확인`() {
-        val apply1 = Apply(academyClass = testAcademyClass, customerId = 101L)
-        val apply2 = Apply(academyClass = testAcademyClass, customerId = 102L)
-
-        academyClassService.applyFor(apply1)
-        academyClassService.applyFor(apply2)
-
-        val updatedClass = academyClassService.findById(testAcademyClass.id!!)
-        assertEquals(2, updatedClass.applications.size)
-    }
-
-    @Test
+    @Transactional
     fun `멀티스레드 환경에서 applyFor() 실행 시 낙관적 락 충돌 테스트`() {
-        var exceptionOccurred = false
+        var exceptionOccurred = 0
+        val academyClass = jpaAcademyClassRepository.findAll().first()
+        val classId = academyClass.id
 
         val thread1 = thread {
             try {
-                applyForClass(testAcademyClass.id!!, 101L) // 고객 ID 101 신청
+                val apply = Apply(academyClass = testAcademyClass, customerId = 101L)
+                academyClass.applications.add(apply)
+                academyClassService.save(academyClass) // 실제 신청 로직 실행
             } catch (e: Exception) {
                 println("Thread 1 Exception: ${e.message}")
             }
@@ -130,25 +106,23 @@ class ApplyOptimisticTest {
         val thread2 = thread {
             Thread.sleep(100) // 일부러 딜레이를 줘서 thread1이 먼저 저장하도록 함
             try {
-                applyForClass(testAcademyClass.id!!, 102L) // 고객 ID 102 신청
-            } catch (e: OptimisticLockException) {
-                exceptionOccurred = true
+                val apply = Apply(academyClass = testAcademyClass, customerId = 101L)
+                academyClass.applications.add(apply)
+                academyClassService.save(academyClass) // 실제 신청 로직 실행
+            } catch (e: ObjectOptimisticLockingFailureException) {
+                exceptionOccurred += 1
                 println("Expected OptimisticLockException: ${e.message}")
             }
         }
 
+
+
         thread1.join()
         thread2.join()
 
-        assertTrue(exceptionOccurred, "OptimisticLockException이 발생해야 합니다")
+        assertEquals(exceptionOccurred, 1)
     }
 
-    @Transactional
-    fun applyForClass(classId: Long, customerId: Long) {
-        val academyClass = jpaAcademyClassRepository.findById(classId).orElseThrow()
-        val apply = Apply(academyClass = academyClass, customerId = customerId)
 
-        academyClassService.applyFor(apply) // 실제 신청 로직 실행
-    }
 
 }

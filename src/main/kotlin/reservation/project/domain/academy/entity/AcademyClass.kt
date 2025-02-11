@@ -2,6 +2,7 @@ package reservation.project.domain.academy.entity
 
 import jakarta.persistence.*
 import reservation.project.domain.academy.status.ClassStatus
+import reservation.project.presentation.academy.dto.academyClass.AcademyClassUpdateDto
 import java.time.LocalDateTime
 
 @Entity
@@ -45,7 +46,7 @@ class AcademyClass(
     @Column(nullable = false)
     var academyId: Long, // 학원 ID
 
-    @OneToMany(mappedBy = "academyClass", cascade = [CascadeType.ALL], fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "academyClass", fetch = FetchType.EAGER)
     var applications: MutableList<Apply> = mutableListOf()
 ) {
 
@@ -64,6 +65,19 @@ class AcademyClass(
         academyId = 0L
     )
 
+    fun updateFromDto(updateDto: AcademyClassUpdateDto) {
+        updateDto.className?.let { this.className = it }
+        updateDto.maxAppliedStudents?.let { this.maxAppliedStudents = it }
+        updateDto.applicationStartTime?.let { this.applicationStartTime = it }
+        updateDto.applicationEndTime?.let { this.applicationEndTime = it }
+        updateDto.classStatus?.let { this.classStatus = it }
+        updateDto.classStartTime?.let { this.classStartTime = it }
+        updateDto.classEndTime?.let { this.classEndTime = it }
+        updateDto.classDays?.let { this.classDays = it }
+        updateDto.tuitionFee?.let { this.tuitionFee = it }
+        updateDto.academyId?.let { this.academyId = it }
+    }
+
     fun getClassDaysList(): List<String> = classDays.split(",")
     fun setClassDaysList(days: List<String>) {
         classDays = days.joinToString(",")
@@ -72,5 +86,6 @@ class AcademyClass(
     fun canApply(): Boolean {
         return applications.size < maxAppliedStudents  // 현재 신청 인원 확인
     }
+
 
 }
