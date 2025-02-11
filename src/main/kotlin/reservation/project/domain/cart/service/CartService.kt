@@ -29,11 +29,4 @@ class CartService(
         return jpaCartRepository.findById(cartId)
     }
 
-    fun delete(cartId: Long) {
-        try {
-            jpaCartRepository.deleteById(cartId)
-        }catch (e: Exception) {
-            throw ErrorException(ResponseDto(Response.SC_INTERNAL_SERVER_ERROR, "Cart Delete Error"))
-        }
-    }
 }

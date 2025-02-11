@@ -31,6 +31,8 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-validation")
 	//security
 	implementation("org.springframework.boot:spring-boot-starter-security")
+	//swagger
+	implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.7.0")
 	//jwt
 	implementation("io.jsonwebtoken:jjwt-api:0.11.2")
 	runtimeOnly("io.jsonwebtoken:jjwt-impl:0.11.2")
@@ -43,6 +45,9 @@ dependencies {
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 	testImplementation("org.mockito.kotlin:mockito-kotlin:5.0.0")
 	implementation(kotlin("stdlib-jdk8"))
+
+	implementation("com.h2database:h2") // H2 DB 추가
+	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
 kotlin {

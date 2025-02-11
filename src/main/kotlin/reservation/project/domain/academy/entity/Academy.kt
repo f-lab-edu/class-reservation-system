@@ -9,30 +9,35 @@ data class Academy(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    val academyId: Long = 0,
+    val id: Long = 0,
 
     @Column(name = "academy_name", nullable = false)
-    val academyName: String,
+    var academyName: String,
 
-    @ManyToOne
-    @JoinColumn(name = "category_id", nullable = false)
-    var category: Category?=null,
+    @Column(name = "category_id", nullable = false)
+    var category: Long = 0,
 
     @Column(name = "open_time")
-    val openTime: LocalDateTime? = null,
+    var openTime: LocalDateTime? = LocalDateTime.now(),
 
     @Column(name = "close_time")
-    val closeTime: LocalDateTime? = null,
+    var closeTime: LocalDateTime? = LocalDateTime.now(),
 
     @Column(name = "location")
-    val location: String? = null,
+    var location: String? = "",
 
     @Column(name = "social_network_address")
-    val socialNetworkAddress: String? = null,
+    var socialNetworkAddress: String? = "",
 
-    @Column(name = "rating")
-    val rating: Double? = null,
+//    @Column(name = "rating")
+//    val rating: Double? = 0.0,
 
     @Column(name = "contact_info")
-    val contactInfo: String? = null
+    var contactInfo: String? = "",
+
+    @Column(name = "created_at", nullable = false, updatable = false)
+    var createdAt: LocalDateTime? = LocalDateTime.now(),
+
+    @Column(name = "updated_at")
+    var updatedAt: LocalDateTime? = LocalDateTime.now()
 )
