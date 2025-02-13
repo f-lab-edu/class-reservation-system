@@ -2,7 +2,6 @@ package reservation.project.presentation.academy.dto.academy
 
 import reservation.project.domain.academy.entity.Academy
 
-
 data class AcademyUpdateDto(
     var academyName: String?,
     val category: Long?,

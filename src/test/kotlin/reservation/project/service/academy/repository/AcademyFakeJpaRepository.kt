@@ -1,8 +1,9 @@
 package reservation.project.service.academy.repository
 
-import org.slf4j.LoggerFactory
 import reservation.project.domain.academy.entity.Academy
+import org.slf4j.LoggerFactory
 import reservation.project.domain.academy.repository.AcademyRepository
+import java.time.LocalDateTime
 import java.util.*
 import java.util.concurrent.ConcurrentHashMap
 
@@ -15,11 +16,35 @@ class AcademyFakeJpaRepository : AcademyRepository {
 
     override fun saveAcademy(academy: Academy): Academy? {
         return if (repo.containsKey(academy.id)) {
-            val updatedAcademy = academy.copy(id = academy.id)  // id를 그대로 유지하면서 복사
+            // 기존 엔티티 수정
+            val updatedAcademy = Academy(
+                id = academy.id,
+                academyName = academy.academyName,
+                category = academy.category,
+                openTime = academy.openTime,
+                closeTime = academy.closeTime,
+                location = academy.location,
+                socialNetworkAddress = academy.socialNetworkAddress,
+                contactInfo = academy.contactInfo,
+                createdAt = academy.createdAt,
+                updatedAt = LocalDateTime.now() // 수정된 시간 업데이트
+            )
             repo[updatedAcademy.id] = updatedAcademy
             updatedAcademy
         } else {
-            val newAcademy = academy.copy(id = idCounter++)  // 새로운 id를 할당해서 삽입
+            // 새 엔티티 추가
+            val newAcademy = Academy(
+                id = idCounter++, // 새로운 ID 할당
+                academyName = academy.academyName,
+                category = academy.category,
+                openTime = academy.openTime,
+                closeTime = academy.closeTime,
+                location = academy.location,
+                socialNetworkAddress = academy.socialNetworkAddress,
+                contactInfo = academy.contactInfo,
+                createdAt = LocalDateTime.now(),
+                updatedAt = LocalDateTime.now()
+            )
             repo[newAcademy.id] = newAcademy
             newAcademy
         }

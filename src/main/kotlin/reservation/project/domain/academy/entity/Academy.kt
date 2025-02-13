@@ -5,7 +5,7 @@ import java.time.LocalDateTime
 
 @Entity
 @Table(name = "academy")
-data class Academy(
+class Academy(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -29,9 +29,6 @@ data class Academy(
     @Column(name = "social_network_address")
     var socialNetworkAddress: String? = "",
 
-//    @Column(name = "rating")
-//    val rating: Double? = 0.0,
-
     @Column(name = "contact_info")
     var contactInfo: String? = "",
 
@@ -40,4 +37,6 @@ data class Academy(
 
     @Column(name = "updated_at")
     var updatedAt: LocalDateTime? = LocalDateTime.now()
-)
+) {
+    constructor() : this(0, "", 0, LocalDateTime.now(), LocalDateTime.now(), "", "", "", LocalDateTime.now(), LocalDateTime.now())
+}

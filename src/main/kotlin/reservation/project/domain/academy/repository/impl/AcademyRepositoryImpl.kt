@@ -1,8 +1,8 @@
 package reservation.project.domain.academy.repository.impl
 
-import org.apache.catalina.connector.Response
-import org.springframework.stereotype.Component
+
 import reservation.project.domain.academy.entity.Academy
+import org.springframework.stereotype.Component
 import reservation.project.domain.academy.repository.AcademyRepository
 import reservation.project.infra.academy.AcademyJpaRepository
 import java.util.*

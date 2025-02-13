@@ -7,13 +7,13 @@ import org.junit.jupiter.api.DisplayName
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import reservation.project.application.academy.AcademyUseCase
-import reservation.project.domain.academy.entity.Academy
 import reservation.project.domain.academy.entity.AcademyInstructor
 import reservation.project.domain.academy.entity.InstructorRole
 import reservation.project.domain.academy.repository.AcademyInstructorRepository
 import reservation.project.domain.academy.repository.AcademyRepository
 import reservation.project.domain.academy.service.AcademyInstructorService
 import reservation.project.domain.academy.service.AcademyService
+import reservation.project.domain.academy.entity.Academy
 import reservation.project.domain.customer.entity.Customer
 import reservation.project.domain.customer.repository.CustomerRepository
 import reservation.project.domain.customer.service.CustomerService

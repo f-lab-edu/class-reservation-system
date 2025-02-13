@@ -6,6 +6,6 @@ import reservation.project.domain.customer.entity.Customer
 
 @Repository
 interface CustomerJpaRepository : JpaRepository<Customer, Long>{
-    fun getByUid(uid: String): Customer?
+    fun findByUid(uid: String): Customer?
     fun save(customers: Customer): Customer?
 }
