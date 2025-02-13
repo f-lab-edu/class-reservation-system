@@ -1,9 +1,9 @@
 package reservation.project.presentation.academy.dto.academy
 
+import reservation.project.domain.academy.entity.Academy
 import io.swagger.v3.oas.annotations.media.Schema
 import jakarta.validation.constraints.NotBlank
 import jakarta.validation.constraints.NotNull
-import reservation.project.domain.academy.entity.Academy
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 

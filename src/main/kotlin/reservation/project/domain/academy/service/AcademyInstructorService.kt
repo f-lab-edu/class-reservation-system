@@ -15,83 +15,39 @@ class AcademyInstructorService(
     private val logger = LoggerFactory.getLogger(AcademyInstructorService::class.java)
 
     fun saveInfo(academyInstructor: AcademyInstructor): AcademyInstructor {
-        try{
-            return academyInstructorRepository.saveInfo(academyInstructor) ?: throw ErrorException(Response.SC_CONFLICT, "Instructor Save Error")
-        }catch (e: ErrorException){
-            throw ErrorException(e.statusCode, e.errorMessage)
-        }
-        catch (e: Exception){
-            throw ErrorException(Response.SC_INTERNAL_SERVER_ERROR, "Instructor Save Error")
-        }
+        return academyInstructorRepository.saveInfo(academyInstructor) ?: throw ErrorException(Response.SC_CONFLICT, "Instructor Save Error")
     }
 
     fun findInfoById(id: Long): AcademyInstructor {
-        try{
-            return academyInstructorRepository.findAcademyInstructorInfoById(id).orElseThrow {
-                ErrorException(Response.SC_NOT_FOUND, "AcademyInstructor Not Found")
-            }
-        }catch (e: ErrorException){
-            throw ErrorException(e.statusCode, e.errorMessage)
-        }
-        catch (e: Exception){
-            throw ErrorException(Response.SC_INTERNAL_SERVER_ERROR, "Instructor Save Error")
-        }
+
+        return academyInstructorRepository.findAcademyInstructorInfoById(id).orElseThrow {
+            ErrorException(Response.SC_NOT_FOUND, "AcademyInstructor Not Found")}
+
     }
 
     fun findInfoByCustomerId(customerId: Long): List<AcademyInstructor> {
-        try{
-            val result = academyInstructorRepository.findAcademyInstructorInfoByCustomerId(customerId)
-            if(result.isEmpty()){
-                throw ErrorException(Response.SC_NOT_FOUND, "Academy Instructor Not Found")
-            }
-            return result
-        }catch (e: ErrorException){
-            throw ErrorException(e.statusCode, e.errorMessage)
+        val result = academyInstructorRepository.findAcademyInstructorInfoByCustomerId(customerId)
+        if(result.isEmpty()){
+            throw ErrorException(Response.SC_NOT_FOUND, "Academy Instructor Not Found")
         }
-        catch (e: Exception){
-            throw ErrorException(Response.SC_INTERNAL_SERVER_ERROR, "Instructor Save Error")
-        }
+        return result
     }
 
     fun findInfoByAcademyId(academyId: Long): List<AcademyInstructor> {
-        try{
-            val result = academyInstructorRepository.findAcademyInstructorInfoByAcademyId(academyId)
-            logger.info(result.toString())
-            if(result.isEmpty()){
-                throw ErrorException(Response.SC_NOT_FOUND, "Academy Instructor Not Found")
-            }
-            return result
-
-        }catch (e: ErrorException){
-            throw ErrorException(e.statusCode, e.errorMessage)
+        val result = academyInstructorRepository.findAcademyInstructorInfoByAcademyId(academyId)
+        if(result.isEmpty()){
+            throw ErrorException(Response.SC_NOT_FOUND, "Academy Instructor Not Found")
         }
-        catch (e: Exception){
-            throw ErrorException(Response.SC_INTERNAL_SERVER_ERROR, "Instructor Save Error")
-        }
+        return result
     }
 
     fun findInfoByAcademyIdAndCustomerId(customerId: Long, academyId: Long): AcademyInstructor? {
-        try{
-            return academyInstructorRepository.findAcademyInstructorInfoAcademyIdAndCustomerId(customerId, academyId)
-                ?: throw ErrorException(Response.SC_NOT_FOUND, "Academy Instructor Not Found")
-
-        }catch (e: ErrorException){
-            throw ErrorException(e.statusCode, e.errorMessage)
-        }
-        catch (e: Exception){
-            throw ErrorException(Response.SC_INTERNAL_SERVER_ERROR, "Instructor Save Error")
-        }
+        return academyInstructorRepository.findAcademyInstructorInfoAcademyIdAndCustomerId(customerId, academyId)
+            ?: throw ErrorException(Response.SC_NOT_FOUND, "Academy Instructor Not Found")
     }
 
     fun checkingValue(customerId: Long, academyId: Long): AcademyInstructor? {
-        try{
-            return academyInstructorRepository.findAcademyInstructorInfoAcademyIdAndCustomerId(customerId, academyId)
-
-        }catch (e: ErrorException){
-            throw ErrorException(e.statusCode, e.errorMessage)
-        }
-        catch (e: Exception){
-            throw ErrorException(Response.SC_INTERNAL_SERVER_ERROR, "Instructor Save Error")
-        }
+        return academyInstructorRepository.findAcademyInstructorInfoAcademyIdAndCustomerId(customerId, academyId)
+            ?: throw ErrorException(Response.SC_NOT_FOUND, "Academy Instructor Not Found")
     }
 }

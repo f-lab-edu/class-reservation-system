@@ -2,8 +2,8 @@ package reservation.project.presentation.academy.dto.academy
 
 import io.swagger.v3.oas.annotations.media.Schema
 import jakarta.validation.constraints.NotBlank
-import jakarta.validation.constraints.NotNull
 import reservation.project.domain.academy.entity.Academy
+import jakarta.validation.constraints.NotNull
 
 data class AcademyUpdateInfoReqDto(
     @field:NotBlank(message = "유저정보가 존재하지 않습니다.") @Schema(description = "유저 Id", pattern = "loginId")

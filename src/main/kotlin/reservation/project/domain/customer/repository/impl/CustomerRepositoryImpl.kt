@@ -10,7 +10,7 @@ class CustomerRepositoryImpl(
     private val customerJpaRepository: CustomerJpaRepository
 ): CustomerRepository {
     override fun getByUid(uid: String): Customer? {
-        return customerJpaRepository.getByUid(uid)
+        return customerJpaRepository.findByUid(uid)
     }
 
     override fun save(customers: Customer): Customer? {

@@ -5,7 +5,7 @@ import java.time.LocalDateTime
 
 @Entity
 @Table(name = "academy_instructor")
-data class AcademyInstructor(
+class AcademyInstructor(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
@@ -26,5 +26,5 @@ data class AcademyInstructor(
 
     @Column(name = "updated_at")
     var updatedAt: LocalDateTime? = LocalDateTime.now()
-)
-
+) {
+}

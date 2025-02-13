@@ -11,7 +11,6 @@ import org.springframework.security.core.userdetails.UserDetails
 @Entity
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
 @Builder
 @Table(name = "customer")
@@ -33,6 +32,8 @@ data class Customer(
     @Column(nullable = false)
     val roles: String = "USER"
 ): UserDetails {
+
+    constructor(): this(0, "", "", "", "USER")
 
     override fun getAuthorities(): Collection<GrantedAuthority> {
         return mutableListOf (SimpleGrantedAuthority(this.roles) )

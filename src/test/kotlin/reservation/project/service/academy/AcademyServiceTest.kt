@@ -1,10 +1,10 @@
 package reservation.project.service.academy
 
+import reservation.project.domain.academy.entity.Academy
 import org.apache.catalina.connector.Response.*
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import reservation.project.domain.academy.entity.Academy
 import reservation.project.domain.academy.service.AcademyService
 import reservation.project.presentation.advice.exception.ErrorException
 import reservation.project.service.academy.repository.AcademyFakeJpaRepository

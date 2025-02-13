@@ -3,6 +3,7 @@ package reservation.project.domain.academy.service
 import org.apache.catalina.connector.Response
 import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import reservation.project.domain.academy.entity.Academy
 import reservation.project.domain.academy.repository.AcademyRepository
 import reservation.project.presentation.academy.dto.academy.AcademyUpdateDto
@@ -17,16 +18,12 @@ class AcademyService(
 
     private val log = LoggerFactory.getLogger(AcademyService::class.java)
 
+    @Transactional
     fun saveAcademy(academy: Academy): Academy? {
-        try {
-            return academyRepository.saveAcademy(academy) ?: throw ErrorException(Response.SC_CONFLICT, "Academy Save Error")
-        }catch (e: ErrorException){
-            throw ErrorException(e.statusCode, e.errorMessage)
-        }catch (e: Exception){
-            throw ErrorException(Response.SC_INTERNAL_SERVER_ERROR, "Academy Save Error")
-        }
+        return academyRepository.saveAcademy(academy) ?: throw ErrorException(Response.SC_CONFLICT, "Academy Save Error")
     }
 
+    @Transactional
     fun updateAcademy(updateDto: AcademyUpdateDto): Academy? {
         try {
             val academyInfo = updateDto.info
@@ -46,18 +43,14 @@ class AcademyService(
         }
     }
 
+    @Transactional
     fun findAcademyInfo(id: Long): Academy {
-        try{
-            return academyRepository.findAcademyById(id).orElseThrow {
-                ErrorException(Response.SC_NOT_FOUND, "Academy Not Found")
-            }
-        }catch (e: ErrorException){
-            throw ErrorException(e.statusCode, e.errorMessage)
-        }catch (e: Exception){
-            throw ErrorException(Response.SC_INTERNAL_SERVER_ERROR, "Server Error : " + e.message)
+        return academyRepository.findAcademyById(id).orElseThrow {
+            ErrorException(Response.SC_NOT_FOUND, "Academy Not Found")
         }
     }
 
+    @Transactional
     fun findAcademyInfoByName(name: String): List<Academy> {
         try{
             val result = academyRepository.findByAcademyName(name)

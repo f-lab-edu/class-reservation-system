@@ -35,7 +35,7 @@ class AcademyClassServiceTest {
     fun setUp() {
         testAcademyClass = AcademyClass(
             id = 1L,
-            version = 1,
+//            version = 1,
             className = "Kotlin Programming",
             maxAppliedStudents = 10,
             applicationStartTime = LocalDateTime.now().minusDays(1),
@@ -83,7 +83,7 @@ class AcademyClassServiceTest {
         // given
         val newAcademyClass = AcademyClass(
             id = null,  // 새로운 객체이므로 ID는 null
-            version = 1,
+//            version = 1,
             className = "Kotlin Programming",
             maxAppliedStudents = 1,
             applicationStartTime = LocalDateTime.now().minusDays(1),

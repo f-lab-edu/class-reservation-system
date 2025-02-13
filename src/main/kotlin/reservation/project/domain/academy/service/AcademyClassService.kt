@@ -19,7 +19,6 @@ class AcademyClassService(
         return jpaAcademyClassRepository.findById(id).orElseThrow {
             ErrorException(Response.SC_NOT_FOUND, "AcademyClass Not Found") }
     }
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
     fun save(academyClass: AcademyClass): AcademyClass? {
         return jpaAcademyClassRepository.save(academyClass)
     }

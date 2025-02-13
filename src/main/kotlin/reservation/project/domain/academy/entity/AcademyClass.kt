@@ -46,7 +46,7 @@ class AcademyClass(
     @Column(nullable = false)
     var academyId: Long, // 학원 ID
 
-    @OneToMany(mappedBy = "academyClass", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "academyClass", fetch = FetchType.EAGER, cascade = [CascadeType.ALL])
     var applications: MutableList<Apply> = mutableListOf()
 ) {
 

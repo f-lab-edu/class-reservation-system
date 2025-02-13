@@ -11,6 +11,6 @@ class CustomersDetailsService(
     private val customerJpaRepository: CustomerJpaRepository
 ) : UserDetailsService {
     override fun loadUserByUsername(username: String?): UserDetails {
-        return customerJpaRepository.getByUid(username!!) ?: throw ErrorException(404, "Customer Not Found")
+        return customerJpaRepository.findByUid(username!!) ?: throw ErrorException(404, "Customer Not Found")
     }
 }
